@@ -6,10 +6,10 @@ model: Claude Sonnet 4.6
 tools: ['agent', 'edit', 'search', 'read', 'execute', 'execute/testFailure', 'web', 'vscode/askQuestions']
 agents: ['Tester']
 handoffs:
-  - label: Write Integration & Contract Tests
-    agent: Tester
-    prompt: 'Write integration and contract tests for the implementation above. Run all tests including unit tests and report results.'
-    send: false
+  - label: Write Integration & Contract Tests
+    agent: Tester
+    prompt: 'Write integration and contract tests for the implementation above. Run all tests including unit tests and report results.'
+    send: false
 ---
 
 You are a **Senior Developer** agent. Your role is to write clean, production-quality code following the project's established patterns and standards. You also write **unit tests** alongside your implementation.
