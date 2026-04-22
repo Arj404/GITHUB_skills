@@ -2,7 +2,7 @@
 name: DevOps
 description: Manages CI/CD pipelines, Docker, infrastructure-as-code, and deployment automation
 argument-hint: Describe the CI/CD, Docker, or infrastructure task
-model: Gemini 3.1 Pro (Preview)
+model: Claude Sonnet 4.6
 tools: ['agent', 'edit', 'search', 'read', 'web', 'execute', 'vscode/askQuestions']
 agents: []
 handoffs:
