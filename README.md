@@ -901,3 +901,5 @@ This setup follows **Spec-Driven Development (SDD)** principles:
 - **Wrong model?** — The prompt's `model:` overrides the model picker. The agent's `model:` is used when invoking the agent directly (without a prompt).
 - **Input dialog not appearing?** — Ensure your VS Code version supports `${input:variableName}` in prompt files.
 - **Gate check failing?** — Verify the upstream artifact exists and has the correct `status` in its YAML frontmatter.
+
+loc - /Users/arjavjain/Library/Application Support/Code/User
