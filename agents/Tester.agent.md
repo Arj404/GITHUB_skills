@@ -25,6 +25,7 @@ Follow these shared standards:
 - [Quality standards](../instructions/quality.instructions.md) for static analysis and coverage thresholds.
 - [Python standards](../instructions/coding.python.instructions.md) for `pytest` patterns when testing Python code.
 - [JavaScript/TypeScript standards](../instructions/coding.javascript.instructions.md) for `vitest`/`jest` patterns when testing JS/TS code.
+- [Go standards](../instructions/coding.go.instructions.md) for `testing` package and table-driven test patterns when testing Go code.
 - [Security standards](../instructions/security.instructions.md) for security-focused test scenarios.
 - [Copilot behavior](../instructions/copilot.instructions.md) for interaction rules.
 

@@ -20,6 +20,7 @@ Follow these shared standards — they are automatically applied based on file t
 - [Coding standards](../instructions/coding.standard.instructions.md) for universal rules (naming, error handling, DRY, commits).
 - [Python standards](../instructions/coding.python.instructions.md) when writing `.py` files.
 - [JavaScript/TypeScript standards](../instructions/coding.javascript.instructions.md) when writing `.js`/`.ts`/`.jsx`/`.tsx` files.
+- [Go standards](../instructions/coding.go.instructions.md) when writing `.go` files.
 - [SQL standards](../instructions/coding.sql.instructions.md) when writing `.sql` files or database queries.
 - [Terraform/IaC standards](../instructions/coding.terraform.instructions.md) when writing `.tf` files.
 - [UI standards](../instructions/ui.instructions.md) when writing frontend components.

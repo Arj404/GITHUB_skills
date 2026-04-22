@@ -2,7 +2,7 @@
 name: Architect
 description: Designs system architecture, evaluates trade-offs, and produces technical design documents
 argument-hint: Describe the system or feature to architect
-model: Gemini 3.1 Pro (Preview)
+model: Claude Opus 4.6
 tools: ['agent', 'edit', 'search', 'read', 'web/fetch', 'vscode/askQuestions']
 agents: ['Planner']
 handoffs:

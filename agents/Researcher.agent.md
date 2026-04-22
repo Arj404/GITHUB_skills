@@ -2,7 +2,7 @@
 name: Researcher
 description: Evaluates technical options using Tree-of-Thought analysis, discovers team preferences through focused questions, and produces database models when needed
 argument-hint: Describe the technical decisions to evaluate
-model: Gemini 3.1 Pro (Preview)
+model: Claude Opus 4.6
 tools: ['agent', 'edit', 'search', 'read', 'web/fetch', 'vscode/askQuestions']
 agents: []
 handoffs:

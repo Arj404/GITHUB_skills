@@ -1,5 +1,5 @@
 ---
-applyTo: "**/*.{py,ts,js,jsx,tsx,sql,tf,yaml,yml,json,md}"
+applyTo: "**/*.{py,go,ts,js,jsx,tsx,sql,tf,yaml,yml,json,md}"
 ---
 
 # Architecture Principles

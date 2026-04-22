@@ -1,5 +1,5 @@
 ---
-applyTo: "**/*.{py,ts,js,jsx,tsx,sql,tf}"
+applyTo: "**/*.{py,ts,js,jsx,tsx,go,sql,tf}"
 ---
 
 # Code Quality Standards
@@ -10,6 +10,7 @@ applyTo: "**/*.{py,ts,js,jsx,tsx,sql,tf}"
   - Python: `ruff` or `pylint` + `mypy`/`pyright` for type checking.
   - JavaScript/TypeScript: `eslint` + `prettier` + TypeScript strict mode.
   - SQL: `sqlfluff` for linting SQL scripts.
+  - Go: `golangci-lint` + `go vet` + `staticcheck`.
   - Terraform: `tflint` + `checkov` for policy compliance.
 - Enable auto-fix in local development (IDE integration) for formatting and import sorting.
 
@@ -31,7 +32,7 @@ applyTo: "**/*.{py,ts,js,jsx,tsx,sql,tf}"
 ## Metrics and Thresholds
 
 - Track line coverage (≥80%), branch coverage (≥70%), and cyclomatic complexity (<10 per function).
-- Use coverage tools: `pytest-cov` (Python), `istanbul`/`c8` (JS/TS).
+- Use coverage tools: `pytest-cov` (Python), `istanbul`/`c8` (JS/TS), `go test -coverprofile` (Go).
 - Report metrics in CI and fail the build when thresholds regress.
 
 ## References

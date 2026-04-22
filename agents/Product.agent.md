@@ -2,7 +2,7 @@
 name: Product
 description: Transforms rough ideas into structured specifications (features or bugs or spikes)
 argument-hint: Describe the feature or bug you want to spec out
-model: Gemini 3.1 Pro (Preview)
+model: Claude Opus 4.6
 tools: ['agent', 'edit', 'read', 'web', 'vscode/askQuestions']
 agents: ['Planner']
 handoffs:

@@ -24,6 +24,7 @@ This folder contains the complete GitHub Copilot customization for this project 
 │   ├── coding.standard.instructions.md  # Universal coding rules
 │   ├── coding.python.instructions.md    # Python-specific (PEP 8, type hints, pytest)
 │   ├── coding.javascript.instructions.md# JS/TS-specific (ES6+, strict TS, eslint)
+│   ├── coding.go.instructions.md        # Go-specific (gofmt, modules, golangci-lint)
 │   ├── coding.sql.instructions.md       # SQL conventions
 │   ├── coding.terraform.instructions.md # Terraform/IaC patterns
 │   ├── testing.instructions.md          # Test organization and coverage
@@ -71,10 +72,11 @@ Instructions are **automatically applied** based on the file you're editing. You
 | Instruction | Applied To | Purpose |
 |-------------|-----------|---------|
 | `copilot` | `**` (all files) | Copilot behavior: concise, absolute paths, PowerShell conventions |
-| `architecture` | `**/*.{py,ts,js,jsx,tsx,sql,tf,yaml,yml,json,md}` | Separation of concerns, API design, module structure |
+| `architecture` | `**/*.{py,go,ts,js,jsx,tsx,sql,tf,yaml,yml,json,md}` | Separation of concerns, API design, module structure |
 | `coding.standard` | `**` | Naming, functions, error handling, DRY, commits |
 | `coding.python` | `**/*.{py,pyi}` | PEP 8, type hints, pytest, ruff/mypy |
 | `coding.javascript` | `**/*.{js,ts,jsx,tsx,mjs,cjs}` | ES6+, strict TypeScript, eslint/prettier |
+| `coding.go` | `**/*.go` | Effective Go, modules, golangci-lint, race detection |
 | `coding.sql` | `**/*.{sql}` | SQL conventions, parameterized queries, migrations |
 | `coding.terraform` | `**/*.{tf,tfvars,hcl}` | Terraform modules, state management, providers |
 | `testing` | `**` | AAA pattern, test/unit/ + test/integration/ + test/contract/ |
