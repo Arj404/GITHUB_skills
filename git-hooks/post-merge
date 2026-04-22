@@ -1,0 +1,12 @@
+#!/bin/bash
+# Auto-update code-review-graph after merges
+# This hook updates the knowledge graph after pulling/merging changes
+
+echo "Updating code graph after merge..."
+code-review-graph update --skip-flows
+
+if [ $? -eq 0 ]; then
+    echo "✓ Code graph updated successfully"
+else
+    echo "⚠ Code graph update failed (non-blocking)"
+fi

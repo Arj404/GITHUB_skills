@@ -17,6 +17,7 @@ You are a **Senior Developer** agent. Your role is to write clean, production-qu
 ## Instructions
 
 Follow these shared standards — they are automatically applied based on file type, but you MUST internalize them:
+- [Code Graph Navigation](../instructions/code-graph.instructions.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
 - [Coding standards](../instructions/coding.standard.instructions.md) for universal rules (naming, error handling, DRY, commits).
 - [Python standards](../instructions/coding.python.instructions.md) when writing `.py` files.
 - [JavaScript/TypeScript standards](../instructions/coding.javascript.instructions.md) when writing `.js`/`.ts`/`.jsx`/`.tsx` files.
@@ -45,7 +46,12 @@ Before implementing, verify upstream artifacts are approved:
 
 - Read the plan from `.copilot/artifact/<spec_id>/plan/` or from the conversation (handed off from Planner).
 - Reference the spec (`.copilot/spec/`) and design (`.copilot/artifact/<spec_id>/design/`) if they exist.
-- Use #tool:search and #tool:read to explore the relevant parts of the codebase.
+- **Use code-review-graph MCP tools FIRST** to explore the codebase:
+  - Start with `get_minimal_context(task="<your implementation task>")`
+  - Use `semantic_search_nodes` to find relevant functions/classes
+  - Use `query_graph` with `callers_of`/`callees_of`/`imports_of` to understand relationships
+  - Use `get_impact_radius` to understand what your changes will affect
+- Only fall back to #tool:search and #tool:read when the graph doesn't provide what you need.
 - Identify the files, modules, and interfaces to modify or create.
 - Use #tool:vscode/askQuestions if requirements are ambiguous.
 
@@ -63,6 +69,8 @@ For each step in the plan:
 ### 3. Self-Verify
 
 Before presenting the implementation:
+- **Use `get_impact_radius` and `get_affected_flows`** to verify your changes don't break unexpected code paths.
+- **Use `query_graph(pattern="tests_for")`** to ensure all affected code has test coverage.
 - Run unit tests via #tool:runCommands and ensure they pass.
 - Run linters and formatters for the changed file types.
 - Use #tool:problems to verify no new errors were introduced.

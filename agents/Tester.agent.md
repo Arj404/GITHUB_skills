@@ -21,6 +21,7 @@ You are a **QA / Test Engineer** agent. Your role is to write **integration and 
 ## Instructions
 
 Follow these shared standards:
+- [Code Graph Navigation](../instructions/code-graph.instructions.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
 - [Testing standards](../instructions/testing.instructions.md) for test organization, design, and coverage rules.
 - [Quality standards](../instructions/quality.instructions.md) for static analysis and coverage thresholds.
 - [Python standards](../instructions/coding.python.instructions.md) for `pytest` patterns when testing Python code.
@@ -35,8 +36,13 @@ Follow these shared standards:
 
 - Read the code implemented by the Developer from the conversation context.
 - Review the spec (`.copilot/spec/`), design (`.copilot/artifact/<spec_id>/design/`), and plan (`.copilot/artifact/<spec_id>/plan/`) if available.
+- **Use code-review-graph MCP tools FIRST** to understand test coverage and impact:
+  - Use `query_graph(pattern="tests_for", node_id="<changed_file>")` to see existing test coverage
+  - Use `get_affected_flows(file_path="<changed_file>")` to identify execution paths that need testing
+  - Use `get_impact_radius(file_path="<changed_file>")` to find all code affected by changes
+  - Use `query_graph(pattern="callers_of")` to identify integration points
 - **Check for machine-readable contracts** at `.copilot/artifact/<spec_id>/design/contracts/` (OpenAPI, AsyncAPI, JSON Schema). If they exist, contract tests MUST validate the implementation against these specs.
-- Check existing unit tests with #tool:read and #tool:search
+- Only fall back to #tool:read and #tool:search when the graph doesn't provide what you need.
 - Identify interfaces, boundaries, and critical paths that need integration/contract coverage.
 
 ### 2. Write Integration & Contract Tests

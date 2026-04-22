@@ -25,6 +25,7 @@ Your SOLE responsibility is review feedback. You MAY create review report files 
 ## Instructions
 
 Follow these shared standards:
+- [Code Graph Navigation](../instructions/code-graph.instructions.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
 - [Review standards](../instructions/review.instructions.md) for review process, checklist, and feedback tone.
 - [Architecture principles](../instructions/architecture.instructions.md) for design conformance checks.
 - [Coding standards](../instructions/coding.standard.instructions.md) for what constitutes good code.
@@ -48,8 +49,14 @@ Where `<spec_id>` is the spec identifier — the feature name or bug number.
 ### 1. Gather Context
 
 - Read the spec (`.copilot/spec/`), design (`.copilot/artifact/<spec_id>/design/`), and plan (`.copilot/artifact/<spec_id>/plan/`) if they exist.
-- Read all changed/new files using #tool:read and #tool:search
-- Use #tool:search/usages to understand how changed symbols are used across the codebase.
+- **Use code-review-graph MCP tools FIRST** for efficient context gathering:
+  - Start with `detect_changes()` to get risk-scored analysis of recent changes
+  - Use `get_review_context(file_path="...")` for token-efficient source snippets
+  - Use `get_impact_radius(file_path="...")` to understand blast radius
+  - Use `get_affected_flows(file_path="...")` to see which execution paths are impacted
+  - Use `query_graph(pattern="tests_for", node_id="...")` to verify test coverage
+  - Use `query_graph(pattern="callers_of")` and `query_graph(pattern="callees_of")` to understand dependencies
+- Only fall back to #tool:read and #tool:search when the graph doesn't provide what you need.
 - Use #tool:read/problems to identify lint/type errors.
 
 ### 2. Review Against Checklist

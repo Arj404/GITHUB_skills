@@ -902,4 +902,128 @@ This setup follows **Spec-Driven Development (SDD)** principles:
 - **Input dialog not appearing?** — Ensure your VS Code version supports `${input:variableName}` in prompt files.
 - **Gate check failing?** — Verify the upstream artifact exists and has the correct `status` in its YAML frontmatter.
 
-loc - /Users/arjavjain/Library/Application Support/Code/User
+global setting location - /Users/arjavjain/Library/Application Support/Code/User
+
+
+---
+
+## Code Graph Integration
+
+This setup integrates the **code-review-graph** extension for efficient, graph-based codebase navigation. Instead of repeatedly scanning files, agents query a SQLite knowledge graph to understand code structure, relationships, and impact.
+
+### Benefits
+
+- **80-95% fewer tokens** — Query the graph instead of reading entire files
+- **Faster exploration** — Understand relationships (callers, dependencies, test coverage) instantly
+- **Smarter agents** — Graph provides structural context that file scanning can't
+
+### How It Works
+
+```
+Agents → code-review-graph MCP → SQLite Knowledge Graph
+                                  (auto-updated on file changes)
+```
+
+### Quick Start
+
+1. **Verify MCP server is connected**:
+   - Open command palette → search "MCP"
+   - Look for "code-review-graph" server (should show as connected)
+
+2. **Generate the graph** (if not already done):
+   ```bash
+   code-review-graph init
+   code-review-graph update
+   ```
+
+3. **Agents automatically use the graph** — no manual action needed!
+
+### Graph-First Navigation
+
+All agents now follow a **graph-first** approach:
+
+```
+1. get_minimal_context(task="your task")  ← Always start here
+2. semantic_search_nodes / query_graph    ← Find relevant code
+3. query_graph with patterns              ← Trace relationships
+4. get_impact_radius / get_affected_flows ← Understand impact
+5. Fall back to file reading only when needed
+```
+
+### Example: Developer Implementing a Feature
+
+```
+Task: "Add rate limiting to API"
+
+1. get_minimal_context(task="add rate limiting to API endpoints")
+   → Returns: relevant middleware files, API route structure
+
+2. semantic_search_nodes(query="middleware api")
+   → Finds: middleware.py, api_routes.py
+
+3. query_graph(pattern="callees_of", node_id="api_routes.py")
+   → Shows: all endpoints that need rate limiting
+
+4. get_impact_radius(file_path="middleware.py")
+   → Shows: what breaks if middleware changes
+
+5. query_graph(pattern="tests_for", node_id="middleware.py")
+   → Shows: existing test coverage
+```
+
+### Available Graph Tools
+
+| Tool | Purpose | When to Use |
+|------|---------|-------------|
+| `get_minimal_context` | Focused context for task | **Always start here** |
+| `semantic_search_nodes` | Find functions/classes | Locating code by name/keyword |
+| `query_graph` | Trace relationships | Understanding callers, dependencies, tests |
+| `get_impact_radius` | Blast radius of changes | Before/after making changes |
+| `get_affected_flows` | Impacted execution paths | Understanding change impact |
+| `detect_changes` | Risk-scored change analysis | Code review, debugging |
+| `get_architecture_overview` | High-level structure | Understanding module organization |
+| `list_communities` | Major modules/areas | Identifying architectural boundaries |
+| `find_large_functions` | Complex code | Refactoring, code review |
+
+### Automatic Graph Updates
+
+The graph stays synchronized via hooks:
+
+- **After file changes**: Runs `code-review-graph update --skip-flows`
+- **On session start**: Runs `code-review-graph status`
+
+### Documentation
+
+- **[CODE_GRAPH_INTEGRATION.md](CODE_GRAPH_INTEGRATION.md)** — Complete integration guide
+- **[code-graph/QUICK_REFERENCE.md](code-graph/QUICK_REFERENCE.md)** — Quick reference for agents
+- **[instructions/code-graph.instructions.md](instructions/code-graph.instructions.md)** — Detailed standards
+
+### Agent Integration
+
+All agents now use graph tools:
+
+- **Developer**: Uses `get_minimal_context`, `semantic_search_nodes`, `get_impact_radius` for exploration and verification
+- **Reviewer**: Uses `detect_changes`, `get_review_context`, `get_affected_flows` for efficient reviews
+- **Tester**: Uses `query_graph(pattern="tests_for")`, `get_affected_flows` to identify test needs
+- **Discovery**: Uses `get_architecture_overview`, `list_communities` for documentation generation
+
+### Troubleshooting
+
+**MCP server not connected?**
+```bash
+# Check if uvx is installed
+uvx --version
+
+# Manually test server
+uvx code-review-graph serve
+```
+
+**Graph out of date?**
+```bash
+code-review-graph update
+code-review-graph status
+```
+
+See [CODE_GRAPH_INTEGRATION.md](CODE_GRAPH_INTEGRATION.md) for detailed troubleshooting.
+
+---
