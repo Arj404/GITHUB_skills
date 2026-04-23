@@ -1,7 +1,12 @@
 {
     "github.copilot.chat.codeGeneration.instructions": [
         {
-            "file": "../instructions/code-graph.instructions.md"
+            "file": "./prompts/code-graph.instructions.md"
+        }
+    ],
+    "github.copilot.chat.experimental.codeGeneration.instructions": [
+        {
+            "file": "./prompts/code-graph.instructions.md"
         }
     ],
     "github.copilot.chat.useProjectTemplates": true
