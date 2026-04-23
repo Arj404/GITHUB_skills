@@ -1,5 +1,4 @@
 {
-    "kiroAgent.configureMCP": "Disabled",
     "github.copilot.chat.codeGeneration.instructions": [
         {
             "file": "../instructions/code-graph.instructions.md"

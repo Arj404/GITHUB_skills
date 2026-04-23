@@ -1,0 +1,10 @@
+{
+  "servers": {
+    "code-graph-22ca0d11": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["code-review-graph", "serve"]
+    }
+  },
+  "inputs": []
+}
