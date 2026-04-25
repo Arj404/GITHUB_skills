@@ -59,21 +59,19 @@ If the user provided a target directory argument, use that directory instead of 
 
 If `docs/` does not exist or is empty, proceed directly to Phase 1.
 
-**Graph Availability Check**: Run `list_graph_stats` to verify the code-review-graph is available. If available, use graph tools throughout the discovery process for more efficient navigation.
+**Graph Availability Check**: Check if `graphify-out/GRAPH_REPORT.md` exists. If available, use graphify throughout the discovery process for more efficient navigation.
 
 ### 1. Phase 1 — Layer 1: Overview
 
 Use #tool:agent/runSubagent to scan the codebase autonomously. Instruct the subagent:
 
-**If code-review-graph is available (preferred):**
-- Run `get_architecture_overview` for high-level structure
-- Run `list_graph_stats` for codebase metrics
-- Run `list_communities` to identify major modules
-- Use `semantic_search_nodes` to find entry points
+**If graphify is available (preferred):**
+- Read `graphify-out/GRAPH_REPORT.md` for high-level structure and architecture overview
+- Review God Nodes and Surprising Connections sections
 - Read manifest files and README for project metadata
 - Read CI/CD configs and Dockerfiles if present
 
-**If code-review-graph is NOT available (fallback):**
+**If graphify is NOT available (fallback):**
 - List the root directory to identify project type from manifest files (`package.json`, `build.sbt`, `pom.xml`, `Cargo.toml`, `go.mod`, `requirements.txt`, `pyproject.toml`, `Gemfile`, `mix.exs`, etc.)
 - Read `README.md` if present — this is the highest-priority context source
 - Read the build/package manifest for dependency list and build/run scripts
@@ -145,12 +143,12 @@ Synthesize the subagent summary into `docs/overview/overview.md` using this temp
 
 Use #tool:agent/runSubagent to identify distinct areas/modules in the codebase. Instruct the subagent:
 
-**If code-review-graph is available (preferred):**
-- Use `list_communities` to get graph-detected module boundaries
-- Use `get_community(name="...")` for each community to understand its purpose
+**If graphify is available (preferred):**
+- Read `graphify-out/GRAPH_REPORT.md` Communities section to understand module boundaries
+- Navigate `graphify-out/wiki/` for detailed module information
 - Cross-reference with directory structure for validation
 
-**If code-review-graph is NOT available (fallback):**
+**If graphify is NOT available (fallback):**
 Use these heuristics (in priority order):
 1. Top-level directories under `src/` or equivalent → candidate areas
 2. Module/package boundaries (Python packages with `__init__.py`, Scala packages, JS barrel exports via `index.ts`)
@@ -179,15 +177,13 @@ For each confirmed area, use #tool:agent/runSubagent to deep-scan that area:
 
 **Subagent instructions per area:**
 
-**If code-review-graph is available (preferred):**
-- Use `get_community(name="<area>")` to get area overview
-- Use `query_graph(pattern="children_of", node_id="<area_directory>")` to list key files
-- Use `query_graph(pattern="imports_of")` to identify dependencies
-- Use `query_graph(pattern="callers_of")` and `query_graph(pattern="callees_of")` to map data flow
-- Use `semantic_search_nodes` to find public interfaces (exported functions, API endpoints)
+**If graphify is available (preferred):**
+- Navigate `graphify-out/wiki/<area>/` for area overview
+- Use `graphify query "dependencies of <area>"` to identify dependencies
+- Use `graphify query "public interfaces in <area>"` to find exported functions/APIs
 - Skip test files and generated/vendored code
 
-**If code-review-graph is NOT available (fallback):**
+**If graphify is NOT available (fallback):**
 - Read key source files in the area's directory (interfaces, models, service entry points)
 - Trace imports to identify internal and external dependencies
 - Identify public interfaces (exported functions, REST endpoints, CLI commands, event topics)
@@ -253,17 +249,15 @@ For each area from Phase 2, use #tool:agent/runSubagent for deep analysis:
 
 **Subagent instructions per area:**
 
-**If code-review-graph is available (preferred):**
-- Use `get_community(name="<area>")` for detailed area analysis
-- Use `query_graph(pattern="children_of")` to enumerate all functions/classes
-- Use `find_large_functions(min_lines=50)` to identify complex code
-- Use `query_graph(pattern="tests_for")` to understand test coverage
-- Use `get_flow(flow_id="...")` to trace execution paths through the area
+**If graphify is available (preferred):**
+- Navigate `graphify-out/wiki/<area>/` for detailed area analysis
+- Use `graphify query "complex functions in <area>"` to identify complex code
+- Use `graphify query "test coverage for <area>"` to understand test coverage
 - Read implementation files to find TODO/FIXME/HACK comments
 - Read config parsing code to enumerate configuration options
 - Identify error handling patterns
 
-**If code-review-graph is NOT available (fallback):**
+**If graphify is NOT available (fallback):**
 - Read ALL significant implementation files in the area (not just interfaces)
 - Search for `TODO`, `FIXME`, `HACK`, `XXX` comments — surface as tech debt
 - Identify non-trivial algorithms, state machines, retry logic, caching strategies

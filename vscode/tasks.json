@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Update Code Graph",
+            "label": "Build Knowledge Graph (graphify)",
             "type": "shell",
-            "command": "code-review-graph update --skip-flows",
+            "command": "graphify .",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -18,9 +18,9 @@
             }
         },
         {
-            "label": "Update Code Graph (Full)",
+            "label": "Update Knowledge Graph (incremental)",
             "type": "shell",
-            "command": "code-review-graph update",
+            "command": "graphify . --update",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -30,9 +30,9 @@
             }
         },
         {
-            "label": "Check Code Graph Status",
+            "label": "Build Graph (no visualization)",
             "type": "shell",
-            "command": "code-review-graph status",
+            "command": "graphify . --no-viz",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -42,9 +42,9 @@
             }
         },
         {
-            "label": "Initialize Code Graph",
+            "label": "Build Graph with Wiki",
             "type": "shell",
-            "command": "code-review-graph init",
+            "command": "graphify . --wiki",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -54,9 +54,9 @@
             }
         },
         {
-            "label": "Code Graph: Full Rebuild",
+            "label": "Query Knowledge Graph",
             "type": "shell",
-            "command": "code-review-graph update --force",
+            "command": "graphify query",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",

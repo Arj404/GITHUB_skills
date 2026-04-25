@@ -49,13 +49,10 @@ Where `<spec_id>` is the spec identifier — the feature name or bug number.
 ### 1. Gather Context
 
 - Read the spec (`.copilot/spec/`), design (`.copilot/artifact/<spec_id>/design/`), and plan (`.copilot/artifact/<spec_id>/plan/`) if they exist.
-- **Use code-review-graph MCP tools FIRST** for efficient context gathering:
-  - Start with `detect_changes()` to get risk-scored analysis of recent changes
-  - Use `get_review_context(file_path="...")` for token-efficient source snippets
-  - Use `get_impact_radius(file_path="...")` to understand blast radius
-  - Use `get_affected_flows(file_path="...")` to see which execution paths are impacted
-  - Use `query_graph(pattern="tests_for", node_id="...")` to verify test coverage
-  - Use `query_graph(pattern="callers_of")` and `query_graph(pattern="callees_of")` to understand dependencies
+- **Check graphify knowledge graph FIRST** if `graphify-out/GRAPH_REPORT.md` exists:
+  - Read `graphify-out/GRAPH_REPORT.md` for architecture overview and change impact
+  - Navigate `graphify-out/wiki/` for detailed module information
+  - Use `graphify query "<question>"` to understand dependencies and relationships
 - Only fall back to #tool:read and #tool:search when the graph doesn't provide what you need.
 - Use #tool:read/problems to identify lint/type errors.
 

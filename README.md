@@ -907,34 +907,33 @@ global setting location - /Users/arjavjain/Library/Application Support/Code/User
 
 ---
 
-## Code Graph Integration
+## Knowledge Graph Integration
 
-This setup integrates the **code-review-graph** extension for efficient, graph-based codebase navigation. Instead of repeatedly scanning files, agents query a SQLite knowledge graph to understand code structure, relationships, and impact.
+This setup integrates **graphify** for efficient, graph-based codebase navigation. Instead of repeatedly scanning files, agents read a generated knowledge graph to understand code structure, relationships, and impact.
 
 ### Benefits
 
-- **80-95% fewer tokens** — Query the graph instead of reading entire files
-- **Faster exploration** — Understand relationships (callers, dependencies, test coverage) instantly
-- **Smarter agents** — Graph provides structural context that file scanning can't
+- **Faster exploration** — Read pre-analyzed architecture instead of scanning files
+- **Better context** — See "God Nodes" (highly connected code) and "Surprising Connections"
+- **Community detection** — Automatically identified modules and their relationships
+- **Visual navigation** — Interactive HTML visualization of the codebase
+- **Plain-language reports** — Architecture summaries in markdown
 
 ### How It Works
 
 ```
-Agents → code-review-graph MCP → SQLite Knowledge Graph
-                                  (auto-updated on file changes)
+Agents → graphify-out/GRAPH_REPORT.md → Knowledge Graph
+                                       (updated via git hooks)
 ```
 
 ### Quick Start
 
-1. **Verify MCP server is connected**:
-   - Open command palette → search "MCP"
-   - Look for "code-review-graph" server (should show as connected)
+1. **Generate the graph**:
+   In VSCode Copilot Chat, type: `/graphify`
 
-2. **Generate the graph** (if not already done):
-   ```bash
-   code-review-graph init
-   code-review-graph update
-   ```
+2. **View the results**:
+   - Open `graphify-out/GRAPH_REPORT.md` for architecture summary
+   - Open `graphify-out/graph.html` in browser for interactive visualization
 
 3. **Agents automatically use the graph** — no manual action needed!
 
@@ -987,43 +986,47 @@ Task: "Add rate limiting to API"
 
 ### Automatic Graph Updates
 
-The graph stays synchronized via hooks:
+The graph stays synchronized via git hooks:
 
-- **After file changes**: Runs `code-review-graph update --skip-flows`
-- **On session start**: Runs `code-review-graph status`
+- **After commits**: Runs `graphify . --update --no-viz`
+- **After merges**: Runs `graphify . --update --no-viz`
 
 ### Documentation
 
-- **[CODE_GRAPH_INTEGRATION.md](CODE_GRAPH_INTEGRATION.md)** — Complete integration guide
-- **[code-graph/QUICK_REFERENCE.md](code-graph/QUICK_REFERENCE.md)** — Quick reference for agents
-- **[instructions/code-graph.instructions.md](instructions/code-graph.instructions.md)** — Detailed standards
+- **[GRAPHIFY_SETUP.md](GRAPHIFY_SETUP.md)** — Complete setup and usage guide
+- **[skills/graphify.skill.md](skills/graphify.skill.md)** — Graphify skill documentation for Copilot
+- **[instructions/copilot.instructions.md](instructions/copilot.instructions.md)** — General Copilot behavior instructions
 
 ### Agent Integration
 
-All agents now use graph tools:
+All agents now use graphify:
 
-- **Developer**: Uses `get_minimal_context`, `semantic_search_nodes`, `get_impact_radius` for exploration and verification
-- **Reviewer**: Uses `detect_changes`, `get_review_context`, `get_affected_flows` for efficient reviews
-- **Tester**: Uses `query_graph(pattern="tests_for")`, `get_affected_flows` to identify test needs
-- **Discovery**: Uses `get_architecture_overview`, `list_communities` for documentation generation
+- **Developer**: Reads `GRAPH_REPORT.md` for architecture overview before implementing
+- **Reviewer**: Uses graph to understand change impact and dependencies
+- **Tester**: Uses graph to identify test coverage gaps
+- **Discovery**: Uses graph for architecture documentation generation
 
 ### Troubleshooting
 
-**MCP server not connected?**
+**Graphify not installed?**
 ```bash
-# Check if uvx is installed
-uvx --version
+# Install graphify
+uv tool install graphifyy
 
-# Manually test server
-uvx code-review-graph serve
+# Or with pip
+python -m pip install graphifyy
 ```
 
 **Graph out of date?**
 ```bash
-code-review-graph update
-code-review-graph status
+# Update the graph
+graphify . --update
+
+# Or rebuild from scratch
+rm -rf graphify-out/
+graphify .
 ```
 
-See [CODE_GRAPH_INTEGRATION.md](CODE_GRAPH_INTEGRATION.md) for detailed troubleshooting.
+See [GRAPHIFY_SETUP.md](GRAPHIFY_SETUP.md) for detailed troubleshooting.
 
 ---

@@ -1,6 +1,6 @@
-# Git Hooks for Code Graph Auto-Update
+# Git Hooks for Knowledge Graph Auto-Update
 
-This directory contains git hooks that automatically update the code-review-graph after code changes.
+This directory contains git hooks that automatically update the graphify knowledge graph after code changes.
 
 ## Available Hooks
 
@@ -88,9 +88,9 @@ git config --unset core.hooksPath
 
 1. You make changes and commit: `git commit -m "Add feature"`
 2. Git runs `.git/hooks/post-commit` (or `.git-hooks/post-commit` if using core.hooksPath)
-3. Hook runs: `code-review-graph update --skip-flows`
+3. Hook runs: `graphify . --update --no-viz`
 4. Graph is updated with your changes
-5. Next time an agent queries the graph, it has current information
+5. Next time an agent reads the graph, it has current information
 
 ## Troubleshooting
 
@@ -113,29 +113,25 @@ git config core.hooksPath
 # Test hook manually
 .git/hooks/post-commit
 
-# Check if code-review-graph is installed
-which code-review-graph
-uvx code-review-graph --help
+# Check if graphify is installed
+which graphify
+graphify --version
 
 # Check graph status
-code-review-graph status
+ls -la graphify-out/
 ```
 
 ### Hook Slows Down Commits
 
-The hooks use `--skip-flows` flag to make updates faster. If still too slow:
-
-```bash
-# Edit the hook to run in background
-# Change: code-review-graph update --skip-flows
-# To: code-review-graph update --skip-flows &
+The hooks use `--update` and `--no-viz` flags to make updates faster. If still too slow:
+# To: graphify . --update --no-viz &
 ```
 
 Or disable hooks and update manually:
 
 ```bash
 # After a work session
-code-review-graph update
+graphify . --update
 ```
 
 ## Best Practices
@@ -144,7 +140,7 @@ code-review-graph update
 2. **Use core.hooksPath** (Option 3) — Cleanest approach for team sharing
 3. **Commit hooks to repo** — Team members can easily install them
 4. **Test hooks** — Run manually before relying on them
-5. **Keep hooks fast** — Use `--skip-flows` flag for quick updates
+5. **Keep hooks fast** — Use `--update --no-viz` flags for quick updates
 
 ## Team Setup
 
@@ -169,9 +165,9 @@ If your team uses [pre-commit](https://pre-commit.com/), add to `.pre-commit-con
 repos:
   - repo: local
     hooks:
-      - id: update-code-graph
-        name: Update Code Graph
-        entry: code-review-graph update --skip-flows
+      - id: update-knowledge-graph
+        name: Update Knowledge Graph
+        entry: graphify . --update --no-viz
         language: system
         stages: [post-commit, post-merge]
         pass_filenames: false
