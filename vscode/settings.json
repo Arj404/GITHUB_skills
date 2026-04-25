@@ -1,12 +1,18 @@
 {
     "github.copilot.chat.codeGeneration.instructions": [
         {
-            "file": "./prompts/code-graph.instructions.md"
+            "file": "skills/graphify.skill.md"
+        },
+        {
+            "file": "instructions/copilot.instructions.md"
         }
     ],
     "github.copilot.chat.experimental.codeGeneration.instructions": [
         {
-            "file": "./prompts/code-graph.instructions.md"
+            "file": "skills/graphify.skill.md"
+        },
+        {
+            "file": "instructions/copilot.instructions.md"
         }
     ],
     "github.copilot.chat.useProjectTemplates": true
