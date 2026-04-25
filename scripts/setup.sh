@@ -174,7 +174,7 @@ if [ "$TARGET" != "$FRAMEWORK_ROOT" ]; then
   # Copy .copilot/context/ defaults only
   mkdir -p "$TARGET/.copilot/context"
   for f in overview.md constraints.md; do
-    SRC="$FRAMEWORK_ROOT/.copilot/context/$f"
+    SRC="$FRAMEWORK_ROOT/copilot/context/$f"
     DST="$TARGET/.copilot/context/$f"
     if [ -f "$SRC" ] && [ ! -f "$DST" ]; then
       cp "$SRC" "$DST"

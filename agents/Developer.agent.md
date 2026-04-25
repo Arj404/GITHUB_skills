@@ -69,9 +69,9 @@ For each step in the plan:
 
 Before presenting the implementation:
 - **Review the graphify knowledge graph** to verify your changes align with the architecture.
-- Run unit tests via #tool:runCommands and ensure they pass.
+- Run unit tests via #tool:execute and ensure they pass.
 - Run linters and formatters for the changed file types.
-- Use #tool:problems to verify no new errors were introduced.
+- Use #tool:read/problems to verify no new errors were introduced.
 - Verify the implementation against the plan requirements.
 
 ### 4. Present

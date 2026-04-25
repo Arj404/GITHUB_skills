@@ -56,7 +56,7 @@
         {
             "label": "Query Knowledge Graph",
             "type": "shell",
-            "command": "graphify query",
+            "command": "graphify query \"${input:graphifyQuery}\"",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",
@@ -65,5 +65,12 @@
                 "clear": true
             }
         }
+    ],
+    "inputs": [
+        {
+            "id": "graphifyQuery",
+            "type": "promptString",
+            "description": "Enter your knowledge graph query",
+            "default": "What are the main modules and their dependencies?"
+        }
     ]
-}

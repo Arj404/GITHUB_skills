@@ -45,3 +45,8 @@ applyTo: "**/*.{ts,tsx}"
 
 - Ensure compatibility with tools like `tsc`, `ESLint` (`@typescript-eslint`), and `Prettier`.
 - Do not use `@ts-ignore`. If a compiler error must be bypassed, use `@ts-expect-error` with a comment explaining why.
+
+## References
+- Follow [coding standards](coding.standard.instructions.md) for universal naming, error handling, and DRY rules.
+- Follow [testing standards](testing.instructions.md) for test organization and coverage rules.
+- Follow [security standards](security.instructions.md) for secure coding practices.

@@ -55,7 +55,7 @@ Before planning, verify upstream artifacts are approved:
 2. **If status is NOT `approved`:** STOP and inform the user:
    > "⚠️ Spec `<spec_id>` has status `<status>`. It must be `approved` before planning can begin. Please review and update the spec status."
 3. If a design exists at `.copilot/artifact/<spec_id>/design/`, check its `Status` field.
-4. **If design exists and status is NOT `Draft` (approved) or `Approved`:** STOP and inform the user:
+4. **If design exists and its `Status` field is neither `Draft` nor `Approved`:** STOP and inform the user:
    > "⚠️ Design for `<spec_id>` has status `<status>`. Approve it before planning."
 5. If pre-conditions pass, proceed to Discovery.
 

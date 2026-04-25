@@ -64,11 +64,11 @@ Follow AAA pattern. Descriptive names. Independent tests. No shared mutable stat
 
 ### 3. Run ALL Tests
 
-Execute the **entire** test suite (unit + integration + contract) via #tool:runCommands:
+Execute the **entire** test suite (unit + integration + contract) via #tool:execute:
 - Run unit tests (written by Developer).
 - Run integration tests (written by you).
 - Run contract tests (written by you).
-- Report coverage with #tool:execute/getTerminalOutput
+- Report coverage with #tool:execute
 
 ### 4. Evaluate Results
 

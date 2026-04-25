@@ -55,8 +55,9 @@ Use #tool:vscode/askQuestions to ask:
 > **What type of spec is this?**
 > - A) **Feature** — new capability or enhancement
 > - B) **Bug** — defect or regression fix
+> - C) **Spike** — time-boxed investigation or proof-of-concept
 
-Set `type` in frontmatter accordingly (`feature` or `bugfix`).
+Set `type` in frontmatter accordingly (`feature`, `bugfix`, or `spike`).
 
 ### 3. Clarify Requirements
 
@@ -204,7 +205,53 @@ approved_date:
 
 ## Changelog
 | Date | Change | Author |
-|------|--------|--------|
+|------|--------|---------|
+| {YYYY-MM-DD} | Initial draft | Product |
+```
+
+#### Spike Template
+
+```markdown
+---
+spec_id: {spec_id}
+type: spike
+status: draft              # draft → approved → in-progress → done
+timebox: {e.g., 2 days}
+approved_by:
+approved_date:
+---
+
+# Spike: {Title}
+**ID**: {spec_id}
+**Date**: {YYYY-MM-DD}
+**Status**: Draft
+**Timebox**: {duration}
+
+## Goal
+{What question does this spike answer? What decision does it unblock?}
+
+## Motivation
+{Why is this investigation needed now?}
+
+## Investigation Scope
+{What will be tried, built, or evaluated during the timebox.}
+
+## Success Criteria
+{What we will know by the end — not a deliverable, but a decision.}
+
+## Deliverables
+- A recommendation document at `.copilot/artifact/{spec_id}/research/recommendation.md`
+- A proof-of-concept or prototype (if applicable)
+
+## Findings
+{Filled in after the spike completes.}
+
+## Recommendation
+{The conclusion and the recommended next action.}
+
+## Changelog
+| Date | Change | Author |
+|------|--------|---------|
 | {YYYY-MM-DD} | Initial draft | Product |
 ```
 

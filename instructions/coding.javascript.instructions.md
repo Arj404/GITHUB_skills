@@ -1,5 +1,3 @@
-
-
 ---
 applyTo: "**/*.{js,jsx,mjs,cjs}"
 ---

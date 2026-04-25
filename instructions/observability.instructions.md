@@ -1,3 +1,7 @@
+---
+applyTo: "**/*.{py,go,ts,js,tsx,jsx,java,cs}"
+---
+
 # Observability Standards
 
 To ensure production readiness, all backend applications must implement robust observability practices including structured logging, distributed tracing, and standardized metrics.

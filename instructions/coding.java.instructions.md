@@ -33,3 +33,9 @@ applyTo: "**/*.java"
 - Use Maven or Gradle for dependency management.
 - Format code using established conventions (e.g., Google Java Format).
 - For enterprise applications, rely on Spring Boot conventions (e.g., Constructor injection over field injection with `@Autowired`).
+
+## References
+- Follow [coding standards](coding.standard.instructions.md) for universal naming, error handling, and DRY rules.
+- Follow [testing standards](testing.instructions.md) for test organization and coverage rules.
+- Follow [security standards](security.instructions.md) for secure coding practices.
+- Follow [architecture principles](architecture.instructions.md) for module structure and design decisions.

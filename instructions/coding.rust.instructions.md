@@ -31,3 +31,8 @@ applyTo: "**/*.rs"
 
 - Code must pass `cargo fmt` without changes.
 - Code must pass `cargo clippy` without warnings. Address clippy warnings appropriately rather than allowing them globally.
+
+## References
+- Follow [coding standards](coding.standard.instructions.md) for universal naming, error handling, and DRY rules.
+- Follow [testing standards](testing.instructions.md) for test organization and coverage rules.
+- Follow [security standards](security.instructions.md) for secure coding practices.

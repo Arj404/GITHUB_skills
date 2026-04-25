@@ -23,7 +23,7 @@ def fix_blanks(filepath, start_line=1):
         print(f"Error: file '{filepath}' not found.")
         sys.exit(1)
 
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
     original_count = len(lines)
@@ -45,7 +45,7 @@ def fix_blanks(filepath, start_line=1):
             fixed_lines.append(lines[i])
             i += 1
 
-    with open(filepath, 'w') as f:
+    with open(filepath, 'w', encoding='utf-8') as f:
         f.writelines(fixed_lines)
 
     print(f"Done! '{filepath}': {original_count} → {len(fixed_lines)} lines")

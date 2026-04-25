@@ -145,8 +145,11 @@ A prompt is a slash command that invokes an agent with a specific brief. Create 
    description: Generate architecture diagrams for a spec
    agent: Architect
    argument-hint: 'Enter spec_id (e.g., user-auth)'
+   model: Claude Sonnet 4.6   # optional — override only when a specific model is required; see MODEL_STRATEGY.md
    ---
    ```
+
+   The `model:` field is optional. Omit it to use the agent's default model. Only override when the task has specific model requirements (e.g., a long-context or vision task). See [MODEL_STRATEGY.md](../MODEL_STRATEGY.md) for approved model names.
 
 3. **Write the prompt body:**
 

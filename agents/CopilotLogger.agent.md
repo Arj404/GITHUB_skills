@@ -5,6 +5,12 @@ argument-hint: Log the changes for the current feature or session
 model: GPT-4.1
 tools: ['agent', 'edit', 'search', 'read', 'vscode/askQuestions']
 agents: []
+handoffs:
+  - label: Session Complete
+    agent: agent
+    prompt: 'The worklog has been saved. This session is complete.'
+    send: true
+    showContinueOn: false
 ---
 
 You are the **Copilot Logger** agent. Your role is to produce a comprehensive, structured worklog of everything that was done by Copilot agents during a development session. This serves as an audit trail, knowledge base, and handoff document.
