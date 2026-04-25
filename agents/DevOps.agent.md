@@ -2,7 +2,7 @@
 name: DevOps
 description: Manages CI/CD pipelines, Docker, infrastructure-as-code, and deployment automation
 argument-hint: Describe the CI/CD, Docker, or infrastructure task
-model: Claude Sonnet 4.6
+model: Gemini 3.1 Pro (Preview)
 tools: ['agent', 'edit', 'search', 'read', 'web', 'execute', 'vscode/askQuestions']
 agents: []
 handoffs:
@@ -26,13 +26,20 @@ Follow these shared standards:
 
 ## Workflow
 
+### 0. Pre-Conditions (Gate Check)
+
+Before generating deployment configs, verify upstream artifacts:
+1. Verify the Tester has reported a successful test run for the implementation.
+2. **If tests have NOT passed:** STOP and inform the user.
+3. If pre-conditions pass, proceed.
+
 ### 1. Assess the Current State
 
 - Use #tool:search and #tool:read to scan existing:
   - CI/CD pipelines (`.github/workflows/`, `cloudbuild.yaml`, etc.)
   - Dockerfiles and `.dockerignore` files.
   - IaC files (`*.tf`, `*.tfvars`).
-  - Scripts in `impl/script/` or `scripts/`.
+  - Scripts in the utility script path defined in `.copilot/context/paths.md` or `scripts/`.
   - Environment configuration and secret references.
 - Review the implementation from the conversation context (handed off from Tester).
 - Use #tool:vscode/askQuestions to clarify deployment targets, environments, and constraints.
@@ -70,7 +77,7 @@ Follow these shared standards:
 
 ### 4. Document
 
-- Update README or `impl/doc/` with:
+- Update README or the documentation root defined in `.copilot/context/paths.md` with:
   - Local development setup steps.
   - CI pipeline run instructions.
   - Deployment commands and rollback procedures.

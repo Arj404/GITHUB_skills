@@ -26,7 +26,7 @@ Every project MUST include a README with at minimum:
 
 ## Architecture Decision Records (ADRs)
 
-- Record significant architecture and technology decisions in `impl/doc/adr/` or `docs/adr/`.
+- Record significant architecture and technology decisions in the documentation path defined in `.copilot/context/paths.md` (e.g., `docs/adr/`).
 - Use a consistent template: Title, Status, Context, Decision, Consequences.
 - ADRs are immutable once accepted; supersede with a new ADR when decisions change.
 
@@ -41,7 +41,7 @@ Every project MUST include a README with at minimum:
 
 - Use text-based diagramming (Mermaid, PlantUML) so diagrams are version-controlled alongside code.
 - Include at minimum: system context diagram, container diagram, and data flow diagram.
-- Store diagram source in `impl/doc/diagrams/` or alongside the feature documentation.
+- Store diagram source in the documentation path defined in `.copilot/context/paths.md` (e.g., `docs/diagrams/`) or alongside the feature documentation.
 
 ## Changelog
 

@@ -45,7 +45,7 @@ Specs are stored flat (not per-feature) so they form a shared catalogue. Use a d
 Use #tool:agent/runSubagent to autonomously research the codebase:
 - Read `.copilot/context/overview.md` for project context.
 - Scan `.copilot/spec/` for existing specs to avoid duplication.
-- Scan `impl/src/` and `impl/doc/` for existing features and documentation.
+- Scan the source and documentation roots defined in `.copilot/context/paths.md` for existing features and documentation.
 - Identify overlapping or related functionality.
 - **DO NOT** scan `.github/agents/`, `.github/prompts/`, or `.github/instructions/` — these are Copilot configuration, not project context.
 

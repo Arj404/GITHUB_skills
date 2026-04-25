@@ -17,7 +17,7 @@ You are a **Senior Developer** agent. Your role is to write clean, production-qu
 ## Instructions
 
 Follow these shared standards — they are automatically applied based on file type, but you MUST internalize them:
-- [Code Graph Navigation](../instructions/code-graph.instructions.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
+- [Graphify Knowledge Graph](../skills/graphify.skill.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
 - [Coding standards](../instructions/coding.standard.instructions.md) for universal rules (naming, error handling, DRY, commits).
 - [Python standards](../instructions/coding.python.instructions.md) when writing `.py` files.
 - [JavaScript/TypeScript standards](../instructions/coding.javascript.instructions.md) when writing `.js`/`.ts`/`.jsx`/`.tsx` files.
@@ -40,7 +40,7 @@ Before implementing, verify upstream artifacts are approved:
 2. Read `.copilot/artifact/<spec_id>/plan/` and check the plan exists.
 3. **If spec status is NOT `approved`:** STOP and inform the user:
    > "⚠️ Spec `<spec_id>` has status `<status>`. It must be `approved` before implementation."
-4. If pre-conditions pass, proceed.
+4. If pre-conditions pass, update the `status` field in the `.copilot/spec/<spec_id>.md` frontmatter to `in-progress` before proceeding.
 
 ### 1. Understand the Task
 

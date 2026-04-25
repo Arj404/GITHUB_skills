@@ -19,6 +19,17 @@ applyTo: "**"
 - Cross-reference instruction files using relative paths for maintainability.
 - Produce output that conforms to the project's established patterns and conventions.
 - When multiple approaches exist, prefer the one aligned with existing codebase patterns.
+- If `.copilot/context/paths.md` does not exist when you need to read it, use #tool:execute to run `bash scripts/setup.sh` or create it with default paths (`src/`, `tests/`, etc.) before proceeding.
+
+## Context Budget
+
+- If the full context (spec + design + plan + contracts + code) exceeds your token window, prioritize information in this order:
+  1. `graphify` knowledge graph
+  2. Spec summary / Plan
+  3. Full Design
+  4. Full Spec
+- Avoid reading entire large files; use graphify and search to extract only necessary information.
+- Use progressive detail loading: start with summaries, drill into files only when needed.
 
 ## Response Format
 

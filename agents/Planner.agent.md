@@ -67,7 +67,7 @@ MANDATORY: Instruct the subagent to work autonomously:
 - Research the user's task comprehensively using read-only tools.
 - Start with high-level code searches before reading specific files.
 - Read spec from `.copilot/spec/` and design from `.copilot/artifact/<spec_id>/design/` if they exist.
-- Scan `impl/src/` for existing code patterns, module structure, and conventions.
+- Scan the source root defined in `.copilot/context/paths.md` for existing code patterns, module structure, and conventions.
 - Read relevant instruction files from `.github/instructions/` for coding standards that affect the plan.
 - **DO NOT** scan `.github/agents/` or `.github/prompts/` — these are Copilot configuration, not project context.
 - Identify missing information, conflicting requirements, or technical unknowns.

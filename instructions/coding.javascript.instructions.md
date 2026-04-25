@@ -1,16 +1,14 @@
 
 
 ---
-applyTo: "**/*.{js,ts,jsx,tsx,mjs,cjs}"
+applyTo: "**/*.{js,jsx,mjs,cjs}"
 ---
 
-# JavaScript / TypeScript Standards
+# JavaScript Standards
 
 ## Style and Structure
 
 - Use ES6+ syntax: `const`/`let` (never `var`), arrow functions, destructuring, template literals, optional chaining.
-- Prefer TypeScript for all new code; use strict mode (`"strict": true`) in `tsconfig.json`.
-- Define explicit interfaces/types for all function parameters, return types, and data structures.
 - Use `async/await` over raw Promises and callbacks; avoid callback nesting.
 
 ## Patterns
@@ -41,3 +39,4 @@ applyTo: "**/*.{js,ts,jsx,tsx,mjs,cjs}"
 
 - Follow [coding standards](coding.standard.instructions.md) for universal coding rules.
 - Follow [testing](testing.instructions.md) for testing practices.
+- For TypeScript-specific rules (strict types, generics, branded types), see [coding.typescript](coding.typescript.instructions.md).

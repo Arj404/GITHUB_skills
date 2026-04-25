@@ -2,9 +2,8 @@
 name: CopilotLogger
 description: Logs all changes made by Copilot agents during a session into a structured worklog
 argument-hint: Log the changes for the current feature or session
-model: GPT-5 mini
-tools: ['agent', 'edit', 'search', 'read',
-'vscode/askQuestions']
+model: GPT-4.1
+tools: ['agent', 'edit', 'search', 'read', 'vscode/askQuestions']
 agents: []
 ---
 
@@ -144,6 +143,7 @@ Write to `.copilot/artifact/<spec_id>/worklog/<spec_id>-worklog.md`:
 - Show the worklog to the user for review.
 - Use #tool:vscode/askQuestions for any missing details.
 - Save the final version.
+- Update the `status` field in the `.copilot/spec/<spec_id>.md` frontmatter to `done`.
 
 ## Rules
 

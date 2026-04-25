@@ -18,8 +18,8 @@ Git hooks need to be installed in the `.git/hooks/` directory. You have two opti
 
 ```bash
 # Copy hooks to .git/hooks/
-cp .git-hooks/post-commit .git/hooks/post-commit
-cp .git-hooks/post-merge .git/hooks/post-merge
+cp git-hooks/post-commit .git/hooks/post-commit
+cp git-hooks/post-merge .git/hooks/post-merge
 
 # Make them executable
 chmod +x .git/hooks/post-commit
@@ -30,23 +30,23 @@ chmod +x .git/hooks/post-merge
 
 ```bash
 # Create symlinks (changes here automatically apply)
-ln -sf ../../.git-hooks/post-commit .git/hooks/post-commit
-ln -sf ../../.git-hooks/post-merge .git/hooks/post-merge
+ln -sf ../../git-hooks/post-commit .git/hooks/post-commit
+ln -sf ../../git-hooks/post-merge .git/hooks/post-merge
 
 # Make source files executable
-chmod +x .git-hooks/post-commit
-chmod +x .git-hooks/post-merge
+chmod +x git-hooks/post-commit
+chmod +x git-hooks/post-merge
 ```
 
 ### Option 3: Git Config (Git 2.9+)
 
 ```bash
 # Configure git to use this directory for hooks
-git config core.hooksPath .git-hooks
+git config core.hooksPath git-hooks
 
 # Make hooks executable
-chmod +x .git-hooks/post-commit
-chmod +x .git-hooks/post-merge
+chmod +x git-hooks/post-commit
+chmod +x git-hooks/post-merge
 ```
 
 ## Verify Installation
@@ -70,7 +70,7 @@ git commit --no-verify
 git config core.hooksPath /dev/null
 
 # Re-enable
-git config core.hooksPath .git-hooks
+git config core.hooksPath git-hooks
 ```
 
 ## Uninstall Hooks
@@ -87,7 +87,7 @@ git config --unset core.hooksPath
 ## How It Works
 
 1. You make changes and commit: `git commit -m "Add feature"`
-2. Git runs `.git/hooks/post-commit` (or `.git-hooks/post-commit` if using core.hooksPath)
+2. Git runs `.git/hooks/post-commit` (or `git-hooks/post-commit` if using core.hooksPath)
 3. Hook runs: `graphify . --update --no-viz`
 4. Graph is updated with your changes
 5. Next time an agent reads the graph, it has current information
@@ -124,6 +124,8 @@ ls -la graphify-out/
 ### Hook Slows Down Commits
 
 The hooks use `--update` and `--no-viz` flags to make updates faster. If still too slow:
+
+```bash
 # To: graphify . --update --no-viz &
 ```
 
@@ -152,8 +154,8 @@ To help team members install hooks, add to your README:
 After cloning, install git hooks:
 
 \`\`\`bash
-git config core.hooksPath .git-hooks
-chmod +x .git-hooks/*
+git config core.hooksPath git-hooks
+chmod +x git-hooks/*
 \`\`\`
 ```
 

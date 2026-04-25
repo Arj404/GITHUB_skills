@@ -25,7 +25,7 @@ Your SOLE responsibility is review feedback. You MAY create review report files 
 ## Instructions
 
 Follow these shared standards:
-- [Code Graph Navigation](../instructions/code-graph.instructions.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
+- [Graphify Knowledge Graph](../skills/graphify.skill.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST).
 - [Review standards](../instructions/review.instructions.md) for review process, checklist, and feedback tone.
 - [Architecture principles](../instructions/architecture.instructions.md) for design conformance checks.
 - [Coding standards](../instructions/coding.standard.instructions.md) for what constitutes good code.

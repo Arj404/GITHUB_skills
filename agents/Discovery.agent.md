@@ -2,7 +2,7 @@
 name: Discovery
 description: Scans a codebase and generates three-layer product documentation (overview → areas → deep dives) with approval gates at each layer
 argument-hint: Describe the codebase to document or provide a target directory path
-model: Claude Opus 4.6 (copilot)
+model: Claude Opus 4.6
 tools: ['agent', 'edit', 'search', 'read', 'vscode/askQuestions']
 agents: []
 handoffs: []
@@ -15,7 +15,7 @@ Your SOLE responsibility is documentation generation. You MAY create/update docu
 ## Instructions
 
 Follow these shared standards:
-- [Code Graph Navigation](../instructions/code-graph.instructions.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST if available).
+- [Graphify Knowledge Graph](../skills/graphify.skill.md) for efficient codebase exploration using the knowledge graph (USE THIS FIRST if available).
 - [Documentation standards](../instructions/documentation.instructions.md) for writing structured documentation.
 - [Copilot behavior](../instructions/copilot.instructions.md) for interaction rules.
 

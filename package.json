@@ -1,0 +1,45 @@
+{
+  "name": "copilot-skills-kit",
+  "version": "2.0.0",
+  "description": "A spec-driven, AI-assisted development framework for GitHub Copilot — agents, prompts, instructions, and skills.",
+  "keywords": [
+    "github-copilot",
+    "ai",
+    "agents",
+    "prompts",
+    "vscode",
+    "copilot-chat",
+    "framework",
+    "skills"
+  ],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/your-org/GITHUB_skills#readme",
+  "bugs": {
+    "url": "https://github.com/your-org/GITHUB_skills/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/GITHUB_skills.git"
+  },
+  "bin": {
+    "copilot-skills-kit": "./bin/cli.js"
+  },
+  "files": [
+    "agents",
+    "prompts",
+    "instructions",
+    "skills",
+    "vscode",
+    "bin",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

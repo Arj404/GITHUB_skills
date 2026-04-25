@@ -2,6 +2,43 @@
 
 This folder contains the complete GitHub Copilot customization for this project — instructions, agents, and prompts — designed to be **reusable across any repository** in the organization.
 
+> **New here?** Read [CONTRIBUTING.md](CONTRIBUTING.md) to add agents, instructions, prompts, or skills.  
+> **Model choices?** See [MODEL_STRATEGY.md](MODEL_STRATEGY.md).  
+> **What changed?** See [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+## Installation
+
+Install via **npm** (no prior install required — works with `npx`):
+
+```bash
+# Run once per machine — installs globally into VS Code and the current repo
+npx copilot-skills-kit install
+
+# Install into a specific repository
+npx copilot-skills-kit install --target ~/projects/my-app
+
+# Install globally only (skip per-repo .github/ copy)
+npx copilot-skills-kit install --global-only
+```
+
+Or install via **pip**:
+
+```bash
+pip install copilot-skills-kit
+copilot-skills-kit install
+```
+
+Both commands do the same thing:
+
+1. Copy all agents, prompts, and instructions to VS Code's global user prompts directory.
+2. Install the `graphify` skill to `~/.copilot/skills/graphify/`.
+3. Copy the full framework into `.github/` of the target repository.
+4. Create `.vscode/settings.json` if one does not already exist.
+
+---
+
 ## Philosophy
 
 | Concept | What it is | Analogy |
@@ -29,6 +66,7 @@ This folder contains the complete GitHub Copilot customization for this project 
 │   ├── coding.terraform.instructions.md # Terraform/IaC patterns
 │   ├── testing.instructions.md          # Test organization and coverage
 │   ├── security.instructions.md         # Security standards
+│   ├── observability.instructions.md    # Logging, tracing, RED/USE metrics
 │   ├── quality.instructions.md          # Static analysis thresholds
 │   ├── devops.instructions.md           # CI/CD and deployment
 │   ├── docker.instructions.md           # Dockerfile best practices
@@ -43,6 +81,8 @@ This folder contains the complete GitHub Copilot customization for this project 
 │   ├── Planner.agent.md        # Technical Lead — creates plans (tasks)
 │   ├── Developer.agent.md      # Senior Developer — implements + unit tests
 │   ├── Tester.agent.md         # QA Engineer — integration + contract tests
+│   ├── SecurityAuditor.agent.md # Security Auditor — OWASP, secrets, deps
+│   ├── Migrator.agent.md       # DB Migrator — up/down migration scripts
 │   ├── DevOps.agent.md         # DevOps Engineer — CI/CD, Docker, IaC
 │   ├── Reviewer.agent.md       # Code Reviewer — cross-model review
 │   └── CopilotLogger.agent.md  # Session Logger — audit trail worklog
@@ -58,7 +98,11 @@ This folder contains the complete GitHub Copilot customization for this project 
 │   ├── review.prompt.md        # /review — cross-model code review
 │   ├── log.prompt.md           # /log — session worklog
 │   ├── quickfix.prompt.md      # /quickfix — trivial plan+code+test in one step
-│   └── registry.prompt.md      # /registry — generate spec index/catalogue
+│   ├── registry.prompt.md      # /registry — generate spec index/catalogue
+│   ├── audit.prompt.md         # /audit — security audit (OWASP, secrets, deps)
+│   ├── migrate.prompt.md       # /migrate — generate database migrations
+│   ├── status.prompt.md        # /status — dashboard view of a spec's progress
+│   └── resume.prompt.md        # /resume — recover interrupted sessions
 │
 └── README.md              # ← You are here
 ```
@@ -74,13 +118,18 @@ Instructions are **automatically applied** based on the file you're editing. You
 | `copilot` | `**` (all files) | Copilot behavior: concise, absolute paths, PowerShell conventions |
 | `architecture` | `**/*.{py,go,ts,js,jsx,tsx,sql,tf,yaml,yml,json,md}` | Separation of concerns, API design, module structure |
 | `coding.standard` | `**` | Naming, functions, error handling, DRY, commits |
+| `coding.javascript` | `**/*.{js,jsx,mjs,cjs}` | ES6+, strict mode, eslint/prettier |
+| `coding.typescript` | `**/*.{ts,tsx}` | Strict mode, generic constraints, branded types, union types |
 | `coding.python` | `**/*.{py,pyi}` | PEP 8, type hints, pytest, ruff/mypy |
-| `coding.javascript` | `**/*.{js,ts,jsx,tsx,mjs,cjs}` | ES6+, strict TypeScript, eslint/prettier |
 | `coding.go` | `**/*.go` | Effective Go, modules, golangci-lint, race detection |
+| `coding.rust` | `**/*.rs` | Ownership, error handling (`?`), tokio concurrency |
+| `coding.java` | `**/*.java` | Immutability, Optional, modern features (records, var) |
 | `coding.sql` | `**/*.{sql}` | SQL conventions, parameterized queries, migrations |
 | `coding.terraform` | `**/*.{tf,tfvars,hcl}` | Terraform modules, state management, providers |
+| `api-versioning` | `**/*.{ts,js,py,go,java,rs,yaml,yml,json}` | URI versioning, deprecation headers, Sunset policy, breaking changes |
 | `testing` | `**` | AAA pattern, test/unit/ + test/integration/ + test/contract/ |
 | `security` | `**` | Auth, secrets, input/output, OWASP, dependency scanning |
+| `observability` | `**/*.{py,go,ts,js,java,cs}` | Structured JSON logging, RED/USE metrics, tracing |
 | `quality` | `**/*.{py,ts,js,jsx,tsx,sql,tf}` | Static analysis, code smells, complexity thresholds |
 | `devops` | `**/*.{yaml,yml,tf,sh,cmd,ps1,Dockerfile}` | CI/CD pipeline stages, containerization |
 | `docker` | `**/Dockerfile*,**/docker-compose*.{yml,yaml}` | Multi-stage, slim bases, non-root, health checks |
@@ -107,14 +156,18 @@ Agents are **persistent AI personas** you switch to with `@AgentName`. Each agen
 
 | Agent | Persona | Model | Key Tools | Writes To |
 |-------|---------|-------|-----------|-----------|
-| `@Product` | Product Owner | (prompt decides) | editFiles, search, read, web, ask | `.copilot/spec/` |
-| `@Architect` | Solution Architect | (prompt decides) | editFiles, search, read, usages, fetch, ask | `.copilot/artifact/<spec_id>/design/` |
-| `@Planner` | Technical Lead | (prompt decides) | editFiles, search, read, ask | `.copilot/artifact/<spec_id>/plan/` |
-| `@Developer` | Senior Developer | (prompt decides) | editFiles, runCommands, search, read, usages, test, ask | `impl/src/` + `test/unit/` |
-| `@Tester` | QA Engineer | (prompt decides) | editFiles, runCommands, search, read, test, ask | `test/integration/` + `test/contract/` |
-| `@DevOps` | DevOps Engineer | (prompt decides) | editFiles, runCommands, search, read, fetch, ask | Pipelines, Dockerfiles, IaC |
-| `@Reviewer` | Code Reviewer | o4-mini / Claude Sonnet 4 / GPT-4.1 | editFiles, search, read, usages, test, ask | `.copilot/artifact/<spec_id>/review/` |
-| `@CopilotLogger` | Session Logger | (prompt decides) | editFiles, search, read, ask | `.copilot/artifact/<spec_id>/worklog/` |
+| `@Product` | Product Owner | Claude Opus 4.6 | agent, edit, read, web, vscode/askQuestions | `.copilot/spec/` |
+| `@Researcher` | Technology Researcher | Claude Opus 4.6 | agent, edit, search, read, web/fetch, vscode/askQuestions | `.copilot/artifact/<spec_id>/research/` |
+| `@Architect` | Solution Architect | Claude Opus 4.6 | agent, edit, search, read, web/fetch, vscode/askQuestions | `.copilot/artifact/<spec_id>/design/` |
+| `@Planner` | Technical Lead | Claude Sonnet 4.6 | agent, edit, search, read, execute, vscode/askQuestions | `.copilot/artifact/<spec_id>/plan/` |
+| `@Developer` | Senior Developer | Claude Sonnet 4.6 | agent, edit, search, read, execute, web, vscode/askQuestions | `impl/src/` + `test/unit/` |
+| `@Tester` | QA Engineer | Claude Sonnet 4.6 | agent, edit, search, read, execute, vscode/askQuestions | `test/integration/` + `test/contract/` |
+| `@Migrator` | Database Migrator | Claude Sonnet 4.6 | agent, edit, search, read, execute, vscode/askQuestions | Migration scripts |
+| `@SecurityAuditor` | Security Auditor | Claude Sonnet 4.6 | agent, edit, search, read, execute, vscode/askQuestions | `.copilot/artifact/<spec_id>/security/` |
+| `@DevOps` | DevOps Engineer | Gemini 3.1 Pro (Preview) | agent, edit, search, read, web, execute, vscode/askQuestions | Pipelines, Dockerfiles, IaC |
+| `@Reviewer` | Code Reviewer | GPT-5.2-Codex | agent, edit, search, read, web, vscode/askQuestions | `.copilot/artifact/<spec_id>/review/` |
+| `@CopilotLogger` | Session Logger | GPT-4.1 | agent, edit, search, read, vscode/askQuestions | `.copilot/artifact/<spec_id>/worklog/` |
+| `@Discovery` | Documentation Discovery | Claude Opus 4.6 | agent, edit, search, read, vscode/askQuestions | `docs/` |
 
 ### Handoff Flow
 
@@ -179,24 +232,22 @@ The `spec_id` is the **thread** that connects all artifacts. Use the same value 
 | `/research` | Researcher | Claude Opus 4.6 | Evaluate tech options (ToT), build preferences, produce DB model |
 | `/design` | Architect | Claude Opus 4.6 | Architect a system + produce contracts (if applicable) |
 | `/plan` | Planner | Claude Sonnet 4.6 | Create implementation plan |
+| `/migrate` | Migrator | Claude Sonnet 4.6 | Generate database migrations based on architecture design |
 | `/code` | Developer | Claude Sonnet 4.6 | Implement with unit tests |
 | `/test` | Tester | Claude Sonnet 4.6 | Write integration/contract tests, run suite |
-| `/cicd` | DevOps | Gemini 2.5 Pro | Set up CI/CD, Docker, deployment |
+| `/audit` | SecurityAuditor | Claude Sonnet 4.6 | Perform security audit (OWASP, secrets, dependencies) |
+| `/cicd` | DevOps | Gemini 3.1 Pro (Preview) | Set up CI/CD, Docker, deployment |
 | `/review` | Reviewer | GPT-5.2-Codex | Cross-model code review |
 | `/log` | CopilotLogger | GPT-4.1 | Session worklog |
 | `/quickfix` | Developer | Claude Sonnet 4.6 | Trivial plan+code+test in one step (<50 LOC) |
 | `/registry` | Product | GPT-4.1 | Generate/update spec index at `.copilot/spec/REGISTRY.md` |
-
+| `/status` | Product | Claude Opus 4.6 | Dashboard view of a spec's progress and artifacts |
+| `/resume` | Product | Claude Opus 4.6 | Recover interrupted sessions and find the next logical step |
+| `/diff` | Reviewer | GPT-5.2-Codex | Show what changed vs. the spec/design (review prep) |
+| `/discover` | Discovery | Claude Opus 4.6 | Scan codebase and generate three-layer product documentation |
 ### Model Strategy
 
-| Category | Model | Prompts | Rationale |
-|----------|-------|---------|----------|
-| Requirements & design | **Claude Opus 4.6** | `/spec`, `/research`, `/design` | Complex reasoning for elicitation, technology evaluation, architecture |
-| Implementation | **Claude Sonnet 4.6** | `/plan`, `/code`, `/test`, `/quickfix` | Fast, high-quality code generation and planning |
-| Infrastructure | **Gemini 2.5 Pro** | `/cicd` | Strong at IaC, Docker, pipeline generation |
-| Review | **GPT-5.2-Codex** | `/review` | Different model family for cross-model review |
-| Utility | **GPT-4.1** | `/log`, `/registry` | Cost-efficient for structured but simple tasks |
-| Cross-model review (agent) | **Claude Sonnet 4 / GPT-4.1 / Gemini 3 Pro** | `@Reviewer` agent | Fallback priority list — ensures different model than Developer |
+Model assignments are maintained in **[MODEL_STRATEGY.md](MODEL_STRATEGY.md)** to avoid stale references here. That document covers model-to-prompt/agent mapping, selection principles, and how to update models when they change.
 
 ---
 
@@ -272,6 +323,30 @@ approved_date:             # Date of approval
 - **`status`** drives gate checks: Planner won't plan unless spec is `approved`, Developer won't code unless plan exists.
 - **`type`** is informational — classifies the work for the registry.
 - The **Changelog** section at the bottom of each spec tracks in-document changes alongside Git history.
+
+---
+
+## Framework Architecture
+
+The diagram below shows how the four artifact types relate to each other at runtime.
+
+```mermaid
+graph TD
+    P["Prompts\n/spec, /code, /review ..."] -->|invoke| A["Agents\n@Product, @Developer, @Tester ..."]
+    A -->|follow| I["Instructions\ncoding, security, testing ..."]
+    A -->|load| S["Skills\n/graphify"]
+    A -->|read & write| AR["Artifacts\n.copilot/spec/\n.copilot/artifact/"]
+    A -->|handoff to| A
+    P -->|scoped by| I
+```
+
+| Layer | Lives in | Applied by |
+|-------|----------|------------|
+| **Instructions** | `instructions/` | VS Code automatically, based on `applyTo` glob |
+| **Agents** | `agents/` | You switch with `@AgentName` or a prompt delegates |
+| **Prompts** | `prompts/` | You invoke with `/command` |
+| **Skills** | `skills/` | You invoke with `/trigger` or auto-loaded via settings |
+| **Artifacts** | `.copilot/` | Agents read and write; humans approve |
 
 ---
 
@@ -636,7 +711,7 @@ This section shows **exactly** what happens at each step — what the human does
 | | Detail |
 |---|---|
 | **You do** | Click `[All Tests Pass → DevOps]` handoff **or** type `/cicd user-auth` |
-| **Model** | Gemini 2.5 Pro |
+| **Model** | Gemini 3.1 Pro (Preview) |
 | **Pre-condition** | None enforced |
 
 **Agent workflow:**
@@ -902,7 +977,6 @@ This setup follows **Spec-Driven Development (SDD)** principles:
 - **Input dialog not appearing?** — Ensure your VS Code version supports `${input:variableName}` in prompt files.
 - **Gate check failing?** — Verify the upstream artifact exists and has the correct `status` in its YAML frontmatter.
 
-global setting location - /Users/arjavjain/Library/Application Support/Code/User
 
 
 ---
@@ -939,14 +1013,13 @@ Agents → graphify-out/GRAPH_REPORT.md → Knowledge Graph
 
 ### Graph-First Navigation
 
-All agents now follow a **graph-first** approach:
+All agents follow a **graph-first** approach — before diving into individual files, consult the knowledge graph to understand the codebase's structure and relationships:
 
 ```
-1. get_minimal_context(task="your task")  ← Always start here
-2. semantic_search_nodes / query_graph    ← Find relevant code
-3. query_graph with patterns              ← Trace relationships
-4. get_impact_radius / get_affected_flows ← Understand impact
-5. Fall back to file reading only when needed
+1. Read graphify-out/GRAPH_REPORT.md    ← Start here: architecture overview, communities
+2. Browse graphify-out/wiki/            ← Per-module details and relationships
+3. graphify query "<question>"          ← BFS traversal for specific cross-cutting questions
+4. Fall back to direct file reading only when the graph doesn't have what you need
 ```
 
 ### Example: Developer Implementing a Feature
@@ -954,35 +1027,28 @@ All agents now follow a **graph-first** approach:
 ```
 Task: "Add rate limiting to API"
 
-1. get_minimal_context(task="add rate limiting to API endpoints")
-   → Returns: relevant middleware files, API route structure
+1. Read graphify-out/GRAPH_REPORT.md
+   → See middleware community, API route structure, God Nodes
 
-2. semantic_search_nodes(query="middleware api")
-   → Finds: middleware.py, api_routes.py
+2. Browse graphify-out/wiki/middleware.md
+   → Understand existing middleware chain and dependencies
 
-3. query_graph(pattern="callees_of", node_id="api_routes.py")
-   → Shows: all endpoints that need rate limiting
+3. graphify query "what routes exist in the API"
+   → Returns: all API routes that need rate limiting applied
 
-4. get_impact_radius(file_path="middleware.py")
-   → Shows: what breaks if middleware changes
-
-5. query_graph(pattern="tests_for", node_id="middleware.py")
-   → Shows: existing test coverage
+4. Read middleware.py, api_routes.py directly
+   → Needed only for implementation details not covered by the graph
 ```
 
-### Available Graph Tools
+### Graph Navigation Reference
 
-| Tool | Purpose | When to Use |
-|------|---------|-------------|
-| `get_minimal_context` | Focused context for task | **Always start here** |
-| `semantic_search_nodes` | Find functions/classes | Locating code by name/keyword |
-| `query_graph` | Trace relationships | Understanding callers, dependencies, tests |
-| `get_impact_radius` | Blast radius of changes | Before/after making changes |
-| `get_affected_flows` | Impacted execution paths | Understanding change impact |
-| `detect_changes` | Risk-scored change analysis | Code review, debugging |
-| `get_architecture_overview` | High-level structure | Understanding module organization |
-| `list_communities` | Major modules/areas | Identifying architectural boundaries |
-| `find_large_functions` | Complex code | Refactoring, code review |
+| Approach | Purpose | When to Use |
+|----------|---------|-------------|
+| Read `GRAPH_REPORT.md` | Architecture overview, God Nodes, communities | **Always start here** |
+| Browse `wiki/<module>.md` | Per-module details, public interfaces, dependencies | Understanding a specific area |
+| `graphify query "<question>"` | BFS traversal — broad context across the graph | Specific cross-cutting questions |
+| `graphify . --update` | Re-analyze new/changed files incrementally | After significant code changes |
+| Direct file reading | Line-level implementation detail | When graph output isn't specific enough |
 
 ### Automatic Graph Updates
 
@@ -993,8 +1059,7 @@ The graph stays synchronized via git hooks:
 
 ### Documentation
 
-- **[GRAPHIFY_SETUP.md](GRAPHIFY_SETUP.md)** — Complete setup and usage guide
-- **[skills/graphify.skill.md](skills/graphify.skill.md)** — Graphify skill documentation for Copilot
+- **[skills/graphify.skill.md](skills/graphify.skill.md)** — Full setup guide, usage, and Copilot skill documentation
 - **[instructions/copilot.instructions.md](instructions/copilot.instructions.md)** — General Copilot behavior instructions
 
 ### Agent Integration
@@ -1027,6 +1092,6 @@ rm -rf graphify-out/
 graphify .
 ```
 
-See [GRAPHIFY_SETUP.md](GRAPHIFY_SETUP.md) for detailed troubleshooting.
+See [skills/graphify.skill.md](skills/graphify.skill.md) for detailed setup and troubleshooting.
 
 ---

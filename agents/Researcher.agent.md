@@ -47,7 +47,7 @@ Before starting research, verify the spec is approved:
 - Read `.copilot/context/constraints.md` for any established team preferences.
 - Read `.copilot/spec/<spec_id>.md` for feature requirements.
 - Identify all technical decisions needed for this feature.
-- Use #tool:agent/runSubagent to explore the codebase: scan `impl/src/` for current tech stack, existing patterns, and dependencies.
+- Use #tool:agent/runSubagent to explore the codebase: scan the source root defined in `.copilot/context/paths.md` for current tech stack, existing patterns, and dependencies.
 - **DO NOT** scan `.github/agents/`, `.github/prompts/`, or `.github/instructions/` — these are Copilot configuration, not project context.
 
 ### 2. Preference Discovery

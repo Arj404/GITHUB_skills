@@ -87,5 +87,5 @@ trigger: /your-skill
 ## Resources
 
 - **[GitHub Copilot Skills Documentation](https://docs.github.com/en/copilot)** - Official documentation
-- **[GRAPHIFY_SETUP.md](../GRAPHIFY_SETUP.md)** - Setup guide for graphify skill
+- **[graphify.skill.md](graphify.skill.md)** - Full documentation for the graphify skill
 - **[README.md](../README.md)** - Main project documentation

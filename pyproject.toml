@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "copilot-skills-kit"
+version = "2.0.0"
+description = "A spec-driven, AI-assisted development framework for GitHub Copilot — agents, prompts, instructions, and skills."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = ["github-copilot", "ai", "agents", "prompts", "vscode", "copilot-chat", "framework"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/GITHUB_skills#readme"
+Repository = "https://github.com/your-org/GITHUB_skills"
+Changelog = "https://github.com/your-org/GITHUB_skills/blob/main/CHANGELOG.md"
+Issues = "https://github.com/your-org/GITHUB_skills/issues"
+
+[project.scripts]
+copilot-skills-kit = "copilot_skills_kit.cli:main"
+
+[project.optional-dependencies]
+# Install graphifyy for the /graphify knowledge-graph skill
+graphify = ["graphifyy"]
+
+[tool.setuptools.packages.find]
+include = ["copilot_skills_kit*"]
+
+[tool.setuptools.package-data]
+"copilot_skills_kit" = ["data/**/*"]
