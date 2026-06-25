@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "default_agent": "product",
+
+  "instructions": [
+    "instructions/copilot.instructions.md",
+    "instructions/architecture.instructions.md",
+    "instructions/coding.standard.instructions.md",
+    "instructions/coding.python.instructions.md",
+    "instructions/coding.javascript.instructions.md",
+    "instructions/coding.typescript.instructions.md",
+    "instructions/coding.go.instructions.md",
+    "instructions/coding.rust.instructions.md",
+    "instructions/coding.java.instructions.md",
+    "instructions/coding.sql.instructions.md",
+    "instructions/coding.terraform.instructions.md",
+    "instructions/api-versioning.instructions.md",
+    "instructions/testing.instructions.md",
+    "instructions/security.instructions.md",
+    "instructions/observability.instructions.md",
+    "instructions/quality.instructions.md",
+    "instructions/devops.instructions.md",
+    "instructions/docker.instructions.md",
+    "instructions/ui.instructions.md",
+    "instructions/documentation.instructions.md",
+    "instructions/review.instructions.md"
+  ],
+
+  "permission": {
+    "edit": "allow",
+    "bash": "ask",
+    "webfetch": "allow",
+    "websearch": "allow"
+  }
+}
