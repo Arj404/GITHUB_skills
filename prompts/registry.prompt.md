@@ -8,7 +8,7 @@ Generate or update the **spec registry** at `.copilot/spec/REGISTRY.md`.
 - Scan all `.md` files in `.copilot/spec/` (excluding REGISTRY.md itself).
 - Read the YAML frontmatter from each spec to extract: `spec_id`, `type`, `status`, `approved_by`, `approved_date`.
 - Read the first heading (`# Spec: ...`) for the title.
-- Check which artifacts exist for each spec in `.copilot/artifact/<spec_id>/` (design, plan, review, worklog).
+- Check which artifacts exist for each spec in `.copilot/artifact/<spec_id>/` (research, plan).
 - Generate a comprehensive index:
 
 ```markdown
@@ -29,7 +29,7 @@ Generate or update the **spec registry** at `.copilot/spec/REGISTRY.md`.
 
 | ID | Title | Type | Status | Approved | Artifacts |
 |----|-------|------|--------|----------|-----------|
-| {spec_id} | {title} | {type} | {status} | {date or —} | design ✓ plan ✓ review ✗ |
+| {spec_id} | {title} | {type} | {status} | {date or —} | research ✓ plan ✓ |
 | … | … | … | … | … | … |
 ```
 

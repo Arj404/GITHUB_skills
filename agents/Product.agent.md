@@ -10,13 +10,9 @@ handoffs:
     agent: Researcher
     prompt: 'Research and evaluate technical options for the spec above. Discover preferences, run ToT analysis, and produce a database model if needed.'
     send: false
-  - label: Design Architecture
-    agent: Architect
-    prompt: 'Design the technical architecture for the spec above.'
-    send: false
   - label: Plan Implementation
     agent: Planner
-    prompt: 'Create a detailed implementation plan for the spec above. Skip architecture — go straight to developer-ready steps.'
+    prompt: 'Create a detailed implementation plan for the spec above.'
     send: false
 ---
 
@@ -280,8 +276,7 @@ approved_date:
   4. **When all stories are approved** (or single story approved):
      - Present handoff options:
        - **Research Technical Options** → if the feature needs technology evaluation (new tech stack, DB choice, etc.).
-       - **Design Architecture** → if tech choices are known and the feature needs architectural design.
-       - **Plan Implementation** → if it's straightforward and can go directly to planning.
+       - **Plan Implementation** → if tech choices are known and the feature can go directly to planning.
 
 ## Rules
 

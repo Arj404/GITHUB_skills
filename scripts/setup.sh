@@ -10,18 +10,15 @@
 #
 # What this script does:
 #   1. Detects the OS (macOS / Linux / Windows via Git Bash / WSL)
-#   2. Installs graphify Python package if missing
-#   3. Installs graphify SKILL.md to ~/.copilot/skills/graphify/
-#   4. Installs agents, prompts, and instructions to the VS Code global user
+#   2. Installs agents, prompts, and instructions to the VS Code global user
 #      prompts directory so they work across ALL repos without per-repo setup:
 #        macOS/Linux  → ~/Library/Application Support/Code/User/prompts/  (macOS)
 #                       ~/.config/Code/User/prompts/                       (Linux)
 #        Windows      → $APPDATA/Code/User/prompts/                        (Git Bash)
-#   5. Copies framework files into .github/ of the TARGET repo for per-repo use
-#   6. Creates default .copilot/context/ configuration files if missing
-#   7. Configures git hooks
-#   8. Writes a recommended .vscode/settings.json
-#   9. Builds the initial knowledge graph
+#   3. Copies framework files into .github/ of the TARGET repo for per-repo use
+#   4. Creates default .copilot/context/ configuration files if missing
+#   5. Configures git hooks
+#   6. Writes a recommended .vscode/settings.json
 # =============================================================================
 
 set -euo pipefail
@@ -77,30 +74,8 @@ else
 fi
 success "Python found: $($PYTHON --version)"
 
-# ─── 3. Install graphify ─────────────────────────────────────────────────────
-header "3. Checking graphify"
-if ! command -v graphify &>/dev/null; then
-  info "Installing graphifyy package..."
-  $PYTHON -m pip install graphifyy -q
-  success "graphify installed"
-else
-  success "graphify already installed ($(graphify --version 2>/dev/null || echo 'version unknown'))"
-fi
-
-# ─── 4. Install graphify SKILL.md globally ───────────────────────────────────
-header "4. Installing graphify skill"
-SKILL_DST="$HOME/.copilot/skills/graphify/SKILL.md"
-SKILL_SRC="$FRAMEWORK_ROOT/skills/graphify.skill.md"
-if [ -f "$SKILL_SRC" ]; then
-  mkdir -p "$(dirname "$SKILL_DST")"
-  cp "$SKILL_SRC" "$SKILL_DST"
-  success "Installed graphify SKILL.md → $SKILL_DST"
-else
-  warn "skills/graphify.skill.md not found in framework root — skipping"
-fi
-
-# ─── 5. Resolve VS Code global user prompts directory ────────────────────────
-header "5. Installing to VS Code global user prompts directory"
+# ─── 3. Resolve VS Code global user prompts directory ────────────────────────
+header "3. Installing to VS Code global user prompts directory"
 case "$OS" in
   macos)
     VSCODE_USER_PROMPTS="$HOME/Library/Application Support/Code/User/prompts"
@@ -155,8 +130,8 @@ else
   warn "Skipping global VS Code install (path not resolved)"
 fi
 
-# ─── 6. Copy Framework Files to Target Repo (.github/) ───────────────────────
-header "6. Copying Framework Files to Target Repo"
+# ─── 4. Copy Framework Files to Target Repo (.github/) ───────────────────────
+header "4. Copying Framework Files to Target Repo"
 if [ "$TARGET" != "$FRAMEWORK_ROOT" ]; then
   # Copy agents/, instructions/, prompts/, skills/ into .github/ in the target repo
   for dir in agents instructions prompts skills; do
@@ -187,8 +162,8 @@ else
   info "Target is the framework root itself — skipping file copy"
 fi
 
-# ─── 7. Create paths.md ──────────────────────────────────────────────────────
-header "7. Initialising Path Configuration"
+# ─── 5. Create paths.md ──────────────────────────────────────────────────────
+header "5. Initialising Path Configuration"
 PATHS_FILE="$TARGET/.copilot/context/paths.md"
 mkdir -p "$TARGET/.copilot/context"
 if [ ! -f "$PATHS_FILE" ]; then
@@ -214,8 +189,8 @@ else
   success "paths.md already exists — skipping"
 fi
 
-# ─── 8. Git Hooks ────────────────────────────────────────────────────────────
-header "8. Configuring Git Hooks"
+# ─── 6. Git Hooks ────────────────────────────────────────────────────────────
+header "6. Configuring Git Hooks"
 HOOKS_DIR="$TARGET/git-hooks"
 if [ ! -d "$HOOKS_DIR" ] && [ -d "$FRAMEWORK_ROOT/git-hooks" ]; then
   cp -r "$FRAMEWORK_ROOT/git-hooks" "$TARGET/"
@@ -236,8 +211,8 @@ else
   warn "git-hooks/ directory not found — skipping"
 fi
 
-# ─── 9. VS Code Settings ─────────────────────────────────────────────────────
-header "9. Writing VS Code Settings"
+# ─── 7. VS Code Settings ─────────────────────────────────────────────────────
+header "7. Writing VS Code Settings"
 VSCODE_DIR="$TARGET/.vscode"
 SETTINGS_FILE="$VSCODE_DIR/settings.json"
 mkdir -p "$VSCODE_DIR"
@@ -246,11 +221,9 @@ if [ ! -f "$SETTINGS_FILE" ]; then
 {
   "chat.promptFilesLocations": [".github/prompts", ".github/agents"],
   "github.copilot.chat.codeGeneration.instructions": [
-    { "file": ".github/skills/graphify.skill.md" },
     { "file": ".github/instructions/copilot.instructions.md" }
   ],
   "github.copilot.chat.experimental.codeGeneration.instructions": [
-    { "file": ".github/skills/graphify.skill.md" },
     { "file": ".github/instructions/copilot.instructions.md" }
   ],
   "github.copilot.chat.useProjectTemplates": true,
@@ -263,16 +236,7 @@ else
   warn ".vscode/settings.json already exists — skipping to preserve your settings"
   info "Ensure these keys are present:"
   echo '    "chat.promptFilesLocations": [".github/prompts", ".github/agents"]'
-  echo '    "github.copilot.chat.codeGeneration.instructions": [{"file": ".github/skills/graphify.skill.md"}, {"file": ".github/instructions/copilot.instructions.md"}]'
-fi
-
-# ─── 10. Build Knowledge Graph ───────────────────────────────────────────────
-header "10. Building Knowledge Graph"
-if command -v graphify &>/dev/null; then
-  info "Running: graphify . (this may take a moment for large codebases)"
-  cd "$TARGET" && graphify . --no-viz 2>/dev/null && success "Knowledge graph built" || warn "graphify ran but reported a non-fatal issue"
-else
-  warn "graphify not on PATH — run 'graphify .' manually in $TARGET"
+  echo '    "github.copilot.chat.codeGeneration.instructions": [{"file": ".github/instructions/copilot.instructions.md"}]'
 fi
 
 # ─── Done ────────────────────────────────────────────────────────────────────

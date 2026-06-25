@@ -10,7 +10,7 @@ The **spec_id** is: `${input:spec_id:Spec ID e.g. user-auth}`
 
 - Read the spec from `.copilot/spec/${input:spec_id}.md`.
 - Read the plan from `.copilot/artifact/${input:spec_id}/plan/`.
-- Read the design from `.copilot/artifact/${input:spec_id}/design/` if it exists.
+- Read the research from `.copilot/artifact/${input:spec_id}/research/` if it exists.
 - Follow existing project patterns — don't invent new conventions.
 - Run unit tests and linters before presenting. Fix any failures.
 - Summarize: files changed, tests written, pass/fail status, deviations from plan.

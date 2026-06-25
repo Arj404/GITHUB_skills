@@ -31,10 +31,6 @@ Issues = "https://github.com/your-org/GITHUB_skills/issues"
 [project.scripts]
 copilot-skills-kit = "copilot_skills_kit.cli:main"
 
-[project.optional-dependencies]
-# Install graphifyy for the /graphify knowledge-graph skill
-graphify = ["graphifyy"]
-
 [tool.setuptools.packages.find]
 include = ["copilot_skills_kit*"]
 

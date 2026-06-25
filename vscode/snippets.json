@@ -120,7 +120,7 @@
       "## Plan: ${1:Feature Title (2-10 words)}",
       "**ID**: ${2:feature/bug ID}",
       "**Spec**: `.copilot/spec/${2:spec-id}.md`",
-      "**Design**: `.copilot/artifact/${2:spec-id}/design/`",
+      "**Research**: `.copilot/artifact/${2:spec-id}/research/`",
       "",
       "---",
       "",

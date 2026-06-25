@@ -12,6 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- **Simplified agentic workflow** — removed 8 agents that were not useful: `Architect`, `Tester`, `Reviewer`, `SecurityAuditor`, `DevOps`, `Migrator`, `CopilotLogger`, `Discovery`. The framework now ships 4 agents: `Product`, `Researcher`, `Planner`, `Developer`.
+- Removed 9 prompts tied to the deleted agents: `/design`, `/test`, `/review`, `/audit`, `/cicd`, `/migrate`, `/log`, `/diff`, `/discover`.
+- Removed graphify knowledge-graph integration (skill file, output dir, git hooks, all references across agents, prompts, instructions, scripts, CLI, and docs).
+- Updated handoffs in the 4 remaining agents: `Product` → `Researcher`/`Planner`; `Researcher` → `Planner`; `Planner` → `Developer`; `Developer` writes unit tests itself (no Tester handoff).
+- Updated `MODEL_STRATEGY.md`, `README.md`, `CHEATSHEET.md`, `CONTRIBUTING.md`, `scripts/setup.sh`, `copilot_skills_kit/cli.py`, `bin/cli.js`, `pyproject.toml`, `vscode/tasks.json`, `vscode/settings.json` to reflect the simplified workflow.
+
 ### Fixed
 
 - **`CopilotLogger.agent.md`** — model corrected from `GPT-5 mini` to `GPT-4.1` to match `MODEL_STRATEGY.md`; tools YAML line-break removed.
@@ -74,7 +82,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Core agents: `Product`, `Architect`, `Planner`, `Developer`, `Tester`, `Reviewer`, `CopilotLogger`, `DevOps`.
 - Core instructions: `copilot`, `architecture`, `coding.standard`, `coding.python`, `coding.javascript`, `coding.go`, `coding.sql`, `coding.terraform`, `testing`, `security`, `quality`, `devops`, `docker`, `ui`, `documentation`, `review`.
 - Core prompts: `/spec`, `/research`, `/design`, `/plan`, `/code`, `/test`, `/cicd`, `/review`, `/log`, `/quickfix`.
-- `graphify` skill — knowledge graph generation from any folder of files.
 - `.copilot/` artifact structure: `spec/`, `artifact/<spec_id>/`, `context/`.
 - Spec frontmatter schema: `spec_id`, `type`, `status`, `approved_by`, `approved_date`.
 - Handoff-driven workflow with approval gates.

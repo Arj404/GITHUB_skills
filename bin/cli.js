@@ -97,15 +97,6 @@ function installGlobal() {
     total += copyFilesFlat(path.join(PACKAGE_ROOT, dir), promptsDir);
   }
   console.log(`  ✓  Installed ${total} files → ${promptsDir}`);
-
-  // Install graphify skill
-  const skillSrc = path.join(PACKAGE_ROOT, 'skills', 'graphify.skill.md');
-  if (fs.existsSync(skillSrc)) {
-    const skillDest = path.join(os.homedir(), '.copilot', 'skills', 'graphify', 'SKILL.md');
-    fs.mkdirSync(path.dirname(skillDest), { recursive: true });
-    fs.copyFileSync(skillSrc, skillDest);
-    console.log(`  ✓  Installed graphify skill → ${skillDest}`);
-  }
 }
 
 function installToRepo(targetPath) {
@@ -176,7 +167,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('\n✅  Done! Open VS Code and start using @Product, @Architect, /spec, and more.\n');
+  console.log('\n✅  Done! Open VS Code and start using @Product, @Planner, /spec, and more.\n');
   console.log('Next steps:');
   console.log('  1. Open your repo in VS Code.');
   console.log('  2. Update .copilot/context/overview.md with your project details.');

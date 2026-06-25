@@ -9,7 +9,7 @@ The **spec_id** is: `${input:spec_id:Spec ID e.g. user-auth}`
 Create an **implementation plan** for this spec.
 
 - Read the spec from `.copilot/spec/${input:spec_id}.md`.
-- Read the design from `.copilot/artifact/${input:spec_id}/design/` if it exists.
+- Read the research from `.copilot/artifact/${input:spec_id}/research/` if it exists.
 - Write the plan to `.copilot/artifact/${input:spec_id}/plan/`.
 - Research the codebase before planning — identify files, modules, and interfaces to change.
 - Include unit test expectations alongside each step.

@@ -143,7 +143,7 @@ A prompt is a slash command that invokes an agent with a specific brief. Create 
    ```yaml
    ---
    description: Generate architecture diagrams for a spec
-   agent: Architect
+   agent: Planner
    argument-hint: 'Enter spec_id (e.g., user-auth)'
    model: Claude Sonnet 4.6   # optional — override only when a specific model is required; see MODEL_STRATEGY.md
    ---
@@ -156,11 +156,11 @@ A prompt is a slash command that invokes an agent with a specific brief. Create 
    ```markdown
    Your task: generate Mermaid architecture diagrams for spec `${input:spec_id}`.
 
-   Switch to @Architect mode and follow the Architect agent instructions.
+   Switch to @Planner mode and follow the Planner agent instructions.
 
    Inputs:
    - .copilot/spec/${input:spec_id}.md
-   - .copilot/artifact/${input:spec_id}/design/
+   - .copilot/artifact/${input:spec_id}/research/
 
    Output: .copilot/artifact/${input:spec_id}/diagrams/
    ```

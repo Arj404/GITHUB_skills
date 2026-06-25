@@ -54,9 +54,9 @@ Before planning, verify upstream artifacts are approved:
 1. Read `.copilot/spec/<spec_id>.md` and check the `status` field in frontmatter.
 2. **If status is NOT `approved`:** STOP and inform the user:
    > "⚠️ Spec `<spec_id>` has status `<status>`. It must be `approved` before planning can begin. Please review and update the spec status."
-3. If a design exists at `.copilot/artifact/<spec_id>/design/`, check its `Status` field.
-4. **If design exists and its `Status` field is neither `Draft` nor `Approved`:** STOP and inform the user:
-   > "⚠️ Design for `<spec_id>` has status `<status>`. Approve it before planning."
+3. If research exists at `.copilot/artifact/<spec_id>/research/recommendation.md`, check its `Status` field.
+4. **If research exists and its `Status` field is neither `Draft` nor `Approved`:** STOP and inform the user:
+   > "⚠️ Research for `<spec_id>` has status `<status>`. Approve it before planning."
 5. If pre-conditions pass, proceed to Discovery.
 
 ### 1. Discovery
@@ -66,7 +66,7 @@ Run #tool:agent/runSubagent to gather context and discover blockers or ambiguiti
 MANDATORY: Instruct the subagent to work autonomously:
 - Research the user's task comprehensively using read-only tools.
 - Start with high-level code searches before reading specific files.
-- Read spec from `.copilot/spec/` and design from `.copilot/artifact/<spec_id>/design/` if they exist.
+- Read spec from `.copilot/spec/` and research from `.copilot/artifact/<spec_id>/research/` if they exist.
 - Scan the source root defined in `.copilot/context/paths.md` for existing code patterns, module structure, and conventions.
 - Read relevant instruction files from `.github/instructions/` for coding standards that affect the plan.
 - **DO NOT** scan `.github/agents/` or `.github/prompts/` — these are Copilot configuration, not project context.
@@ -89,7 +89,7 @@ Write the plan to `.copilot/artifact/<spec_id>/plan/<feature-name>.md`:
 **ID**: {feature/bug ID}
 **Date**: {YYYY-MM-DD}
 **Spec**: .copilot/spec/<name>.md
-**Design**: .copilot/artifact/<spec_id>/design/<name>.md (if exists)
+**Research**: .copilot/artifact/<spec_id>/research/recommendation.md (if exists)
 
 {TL;DR — what, how, why. (30-200 words)}
 

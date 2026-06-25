@@ -6,10 +6,6 @@ model: Claude Opus 4.6
 tools: ['agent', 'edit', 'search', 'read', 'web/fetch', 'vscode/askQuestions']
 agents: []
 handoffs:
-  - label: Design Architecture
-    agent: Architect
-    prompt: 'Design the technical architecture using the research recommendations and database model above.'
-    send: false
   - label: Plan Implementation
     agent: Planner
     prompt: 'Create a detailed implementation plan. Use the research recommendations to guide technology choices.'
@@ -181,7 +177,7 @@ Write all research artifacts to:
 └── recommendation.md          # Final decisions — approved choices that bind downstream agents
 ```
 
-The `recommendation.md` MUST follow this structure so the Architect can consume it unambiguously:
+The `recommendation.md` MUST follow this structure so downstream agents (Planner, Developer) can consume it unambiguously:
 
 ```markdown
 # Research Recommendation: <spec_id>
@@ -199,8 +195,8 @@ The `recommendation.md` MUST follow this structure so the Architect can consume 
 ## Database Model
 {Summary or link to `database-model.md` if produced.}
 
-## Constraints for Architect
-{Any specific constraints the Architect must follow, e.g.:}
+## Constraints for Downstream Agents
+{Any specific constraints the Planner and Developer must follow, e.g.:}
 - Use Cloud Run with min 1 / max 10 instances
 - PostgreSQL via Cloud SQL (not self-managed)
 - REST API (not gRPC) for external consumers
@@ -245,8 +241,7 @@ After writing all research artifacts, ask for approval using #tool:vscode/askQue
 - `research/database-model.md` — Database schema and ERD (if applicable)
 
 ### Next Steps
-→ **[Design Architecture]** — Pass decisions + database model to Architect
-→ **[Plan Implementation]** — Skip design, go straight to planning (simple features)
+→ **[Plan Implementation]** — Pass decisions + database model to Planner
 ```
 
 ## Rules

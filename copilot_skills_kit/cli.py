@@ -98,13 +98,6 @@ def _install_global(data_root: Path) -> None:
     )
     print(f"  ✓  Installed {total} files → {prompts_dir}")
 
-    skill_src = data_root / "skills" / "graphify.skill.md"
-    if skill_src.exists():
-        skill_dest = Path.home() / ".copilot" / "skills" / "graphify" / "SKILL.md"
-        skill_dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(skill_src, skill_dest)
-        print(f"  ✓  Installed graphify skill → {skill_dest}")
-
 
 def _install_to_repo(data_root: Path, target: Path) -> None:
     for dir_name in ("agents", "instructions", "prompts", "skills"):
@@ -183,7 +176,7 @@ def main() -> None:
         print(f"\n  ✗  Error: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    print("\n✅  Done! Open VS Code and start using @Product, @Architect, /spec, and more.\n")
+    print("\n✅  Done! Open VS Code and start using @Product, @Planner, /spec, and more.\n")
     print("Next steps:")
     print("  1. Open your repo in VS Code.")
     print("  2. Update .copilot/context/overview.md with your project details.")

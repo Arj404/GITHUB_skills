@@ -24,11 +24,10 @@ applyTo: "**"
 ## Context Budget
 
 - If the full context (spec + design + plan + contracts + code) exceeds your token window, prioritize information in this order:
-  1. `graphify` knowledge graph
-  2. Spec summary / Plan
-  3. Full Design
-  4. Full Spec
-- Avoid reading entire large files; use graphify and search to extract only necessary information.
+  1. Spec summary / Plan
+  2. Full Design
+  3. Full Spec
+- Avoid reading entire large files; use search to extract only necessary information.
 - Use progressive detail loading: start with summaries, drill into files only when needed.
 
 ## Response Format
@@ -37,9 +36,3 @@ applyTo: "**"
 - Provide code with inline comments only for non-obvious logic.
 - Include file paths when referencing or modifying files.
 - When suggesting changes, show before/after context for clarity.
-
-## graphify
-
-Before answering architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` if it exists.
-If `graphify-out/wiki/index.md` exists, navigate it for deep questions.
-Type `/graphify` in Copilot Chat to build or update the knowledge graph.

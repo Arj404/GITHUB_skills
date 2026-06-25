@@ -1,9 +1,6 @@
 {
     "github.copilot.chat.codeGeneration.instructions": [
         {
-            "file": "skills/graphify.skill.md"
-        },
-        {
             "file": "instructions/copilot.instructions.md"
         }
     ],
